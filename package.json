@@ -30,6 +30,12 @@
     "open-source"
   ],
   "dependencies": {
+    "@octokit/request-error": "^6.1.1",
+    "@octokit/rest": "^21.0.0",
+    "@safe-global/api-kit": "^2.4.2",
+    "@safe-global/protocol-kit": "^4.0.2",
+    "@safe-global/safe-core-sdk-types": "^5.0.2",
+    "@supabase/supabase-js": "^2.43.5",
     "dotenv": "^16.4.4"
   },
   "devDependencies": {
@@ -77,5 +83,6 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
