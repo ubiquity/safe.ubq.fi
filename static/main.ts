@@ -1,8 +1,7 @@
-export async function mainModule() {
-  console.log(`Hello from mainModule`);
-}
+import { authentication } from "./src/auth/authentication";
 
-mainModule()
+
+authentication()
   .then(() => {
     console.log("mainModule loaded");
   })
