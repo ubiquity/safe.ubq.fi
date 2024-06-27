@@ -61,7 +61,7 @@ async function handleUser(
 }
 
 export async function createPasskeyHandler(abortController: AbortController, ghUser?: GitHubUser | null) {
-    const username = ghUser?.login || prompt("Enter a username");
+    const username = ghUser?.login || "testing"
 
     if (!username) {
         throw new Error("Username is required");
