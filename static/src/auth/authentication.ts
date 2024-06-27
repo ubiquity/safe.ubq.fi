@@ -13,6 +13,8 @@ export async function authentication() {
     if (gitHubUser) {
         renderUserInfo(gitHubUser);
     }
+
+    return gitHubUser;
 }
 
 

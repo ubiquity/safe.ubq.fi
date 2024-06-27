@@ -55,3 +55,9 @@ export interface OAuthToken {
         updated_at: string;
     };
 }
+
+export type SmartAccount = {
+    privateKey: string;
+    publicKey: string;
+    mnemonic: string;
+};

@@ -2,13 +2,13 @@ import { getSupabase } from "../supabase/session";
 import { GitHubUser } from "../types/github";
 
 export async function renderGitHubLoginButton() {
-    const existingButton = document.getElementById("login-with-github");
+    const existingButton = document.getElementById("auth-btn");
     if (existingButton) {
         return existingButton;
     }
     const btn = document.createElement("button");
     btn.textContent = "Login with GitHub";
-    btn.id = "login-with-github";
+    btn.id = "auth-btn";
     btn.onclick = async () => {
         const supabase = getSupabase();
         const { error } = await supabase.auth.signInWithOAuth({
@@ -27,21 +27,22 @@ export function renderUserInfo(
     user: GitHubUser
 ) {
     const newInfo = document.createElement("div");
+    newInfo.id = "info-container"
     newInfo.innerHTML = `
     <div id="user-info-container">
-    <img id="gh-pp" src="${user.avatar_url}" alt="User avatar" />
-    <h2>Hello, ${user.login}</h2>
+        <img id="gh-pp" src="${user.avatar_url}" alt="User avatar" style="width: 320px; height: 320px; margin-top: 20px;" />
+        <h2>Hello, ${user.login}.</h2>
     </div>
     `;
 
-    const container = document.getElementById("user-info-container");
-    if (container) {
-        container.style.display = "flex";
-        container.style.flexDirection = "column";
-        container.style.alignItems = "center";
-    }
+    document.body.appendChild(newInfo);
 
+    const userInfoContainer = document.getElementById("user-info-container")
     const logoutButton = document.createElement("button");
+
+    if (!logoutButton) {
+        throw new Error("no login btn")
+    }
 
     logoutButton.onclick = () => {
         const supabase = getSupabase();
@@ -50,8 +51,8 @@ export function renderUserInfo(
         })
     };
     logoutButton.textContent = "Logout";
-    newInfo.appendChild(logoutButton);
-    document.body.appendChild(newInfo);
+
+    userInfoContainer?.appendChild(logoutButton)
 
     return newInfo;
 }
