@@ -107,7 +107,6 @@ export async function createPasskeyHandler(abortController: AbortController, ghU
 
     }
 
-
     if (cred) {
         const credUser = {
             name: username,
