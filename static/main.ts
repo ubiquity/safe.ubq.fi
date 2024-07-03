@@ -5,8 +5,8 @@ import { webAuthn } from "./src/webauthn/webauthn";
 authentication()
   .then((ghUser) => {
     if (!ghUser) return;
-    webAuthn(new AbortController(), ghUser).then((result) => {
-      renderSafeUI(result.signer, result.account)
+    webAuthn(ghUser).then((result) => {
+      renderSafeUI(result)
     });
   })
   .catch((error) => {

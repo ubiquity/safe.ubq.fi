@@ -56,8 +56,14 @@ export interface OAuthToken {
     };
 }
 
-export type SmartAccount = {
-    privateKey: string;
-    publicKey: string;
-    mnemonic: string;
+export type UserAuth = {
+    id: string;
+    ca: string;
+    iid: string;
 };
+
+export type User = {
+    id: string;
+    displayName: string;
+    name: string;
+}

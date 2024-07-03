@@ -29,7 +29,7 @@ export const esBuildContext: esbuild.BuildOptions = {
     SUPABASE_STORAGE_KEY: generateSupabaseStorageKey(),
     commitHash: execSync(`git rev-parse --short HEAD`).toString().trim(),
     NODE_ENV: process.env.NODE_ENV || "development",
-    SALT: process.env.SALT || "south-tube-human-wise-fashion-village"
+    SALT: process.env.SALT || "south-tube-human-wise-fashion-village-south-tube-human-wise-fashion-village"
   }),
 };
 
