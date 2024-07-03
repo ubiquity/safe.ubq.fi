@@ -10,6 +10,27 @@ export function getSupabase() {
     return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
+export async function getUser() {
+    const { data: { user }, error } = await getSupabase().auth.getUser();
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    if (user) {
+
+        if (!user.identities) {
+            throw new Error("No identities found for user");
+        }
+        return {
+            id: user.id,
+            iid: user.identities[0].identity_id || "",
+            ca: user.created_at,
+        }
+    }
+
+    return null;
+}
+
 export async function checkSupabaseSession() {
     const oauthToken = getLocalStore(`sb-${SUPABASE_STORAGE_KEY}-auth-token`) as OAuthToken | null;
     if (!oauthToken) {

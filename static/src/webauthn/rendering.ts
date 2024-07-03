@@ -1,11 +1,9 @@
 import { Wallet } from "ethers";
-import { SmartAccount } from "../types/auth";
 
-export function renderSafeUI(signer: Wallet, account: SmartAccount) {
+export async function renderSafeUI(signer: Wallet) {
     const container = document.createElement("div")
     const { address, privateKey: signerPk, signingKey } = signer
     const { compressedPublicKey, privateKey, publicKey: signingPubKey } = signingKey
-    const { mnemonic, privateKey: accPk, publicKey: accPubKey } = account
 
     const signerInfo = `
         <div style="display: flex; flex-direction: column; margin-left: 6px">
@@ -20,15 +18,7 @@ export function renderSafeUI(signer: Wallet, account: SmartAccount) {
                     <p>Private Key: ${privateKey}</p>
                     <p>Signing Public Key:${signingPubKey}</p>
             </div>
-            <div>
-                <h2>Account Info</h2>
-                <p>Private Key: ${accPk}</p>
-                <p>Public Key: ${accPubKey}</p>
-                <p>Mnemonic: ${mnemonic}</p>
-            </div>
-        </div>
-    `;
-
+            `;
     container.innerHTML = signerInfo;
     const infoContainer = document.getElementById("info-container")
     if (!infoContainer) {
