@@ -8,22 +8,25 @@ export async function walletNeedsFunded(signer: Wallet) {
 }
 
 export async function fundWalletFromFaucet(signer: Wallet) {
-    const workerUrl = "https://ubq-gas-faucet.keyrxng7749.workers.dev"
-
+    const workerUrl = "https://ubq-gas-faucet.keyrxng7749.workers.dev/?address=" + signer.address;
+    let res: Response | null = null;
     try {
-        const response = await fetch(workerUrl + "/?address=" + signer.address, {
+        res = await fetch(workerUrl, {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
 
-        if (response.status === 200) {
-            await response.json();
-        } else {
-            throw new Error("Failed to fund wallet");
+        if (res.status !== 200) {
+            throw new Error("Failed to fund wallet from faucet");
         }
 
-
     } catch (e) {
-        console.error(e)
-        throw new Error("Failed to fund wallet");
+        console.error(e);
+    }
+
+    if (res) {
+        return res.json();
     }
 }
