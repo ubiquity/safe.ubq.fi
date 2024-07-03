@@ -1,14 +1,19 @@
-import { Wallet } from "ethers";
+import { formatUnits, Wallet } from "ethers";
+
 
 export async function renderSafeUI(signer: Wallet) {
     const container = document.createElement("div")
-    const { address, privateKey: signerPk, signingKey } = signer
+    const { address, privateKey: signerPk } = signer
     const signerInfo = `
         <div style="display: flex; flex-direction: column; margin-left: 6px">
             <div>
                 <h2>Signer Info</h2>
                 <p>Public Key: ${address}</p>
                 <p>Private Key: ${signerPk.slice(0, 4)}...${signerPk.slice(-4)}</p>
+            </div>
+            <div>
+                <h2>Balance Info</h2>
+                <p>Balance: ${await signer.provider?.getBalance(signer.address).then((balance) => formatUnits(balance, "ether"))} ETH</p>
             </div>
             `;
     container.innerHTML = signerInfo;
@@ -18,7 +23,6 @@ export async function renderSafeUI(signer: Wallet) {
     }
     infoContainer.style.display = "flex"
     infoContainer.appendChild(container)
-
 }
 
 export async function isWebAuthnSupported() {

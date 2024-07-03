@@ -4,8 +4,9 @@ import { isWebAuthnSupported } from "./rendering";
 import { getUser } from "../supabase/session";
 import { createAndUseWallet } from "@ubiquity/webauthn-evm-signer";
 import { User, UserAuth } from "../types/auth";
+import { walletNeedsFunded, fundWalletFromFaucet } from "../funding/balance-check";
 
-const provider = new ethers.JsonRpcProvider("http://localhost:8545"); // @todo: pull from rpc-handler
+const provider = new ethers.JsonRpcProvider("https://rpc-amoy.polygon.technology"); // @todo: pull from rpc-handler
 
 declare const SALT: string;
 
@@ -28,7 +29,16 @@ export async function webAuthn(ghUser?: GitHubUser | null) {
         name: ghUser.login,
     }
 
-    return await handleUser(user, userAuth, provider);
+    const signer = await handleUser(user, userAuth, provider);
+
+    if (await walletNeedsFunded(signer)) {
+        console.log(`Funding wallet ${signer.address}`)
+        await fundWalletFromFaucet(signer);
+    } else {
+        console.log("Wallet does not need funding")
+    }
+
+    return signer;
 }
 
 function abortControlHandler() {
