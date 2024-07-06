@@ -2,9 +2,26 @@ import { createClient } from "@supabase/supabase-js";
 import { getLocalStore } from "../utils/local-storage";
 import { OAuthToken } from "../types/auth";
 
-declare const SUPABASE_URL: string; // @DEV: passed in at build time check build/esbuild-build.ts
-declare const SUPABASE_ANON_KEY: string; // @DEV: passed in at build time check build/esbuild-build.ts
-declare const SUPABASE_STORAGE_KEY: string; // @DEV: passed in at build time check build/esbuild-build.ts
+const SUPABASE_URL = "https://wfzpewmlyiozupulbuur.supabase.co" // @DEV: passed in at build time check build/esbuild-build.ts
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmenBld21seWlvenVwdWxidXVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTU2NzQzMzksImV4cCI6MjAxMTI1MDMzOX0.SKIL3Q0NOBaMehH0ekFspwgcu3afp3Dl9EDzPqs1nKs" // @DEV: passed in at build time check build/esbuild-build.ts
+export const SUPABASE_STORAGE_KEY = generateSupabaseStorageKey(SUPABASE_URL) // @DEV: passed in at build time check build/esbuild-build.ts
+
+function generateSupabaseStorageKey(url: string): string | null {
+    const urlParts = url.split(".");
+    if (urlParts.length === 0) {
+        console.error("Invalid SUPABASE_URL environment variable");
+        return null;
+    }
+
+    const domain = urlParts[0];
+    const lastSlashIndex = domain.lastIndexOf("/");
+    if (lastSlashIndex === -1) {
+        console.error("Invalid SUPABASE_URL format");
+        return null;
+    }
+
+    return domain.substring(lastSlashIndex + 1);
+}
 
 export function getSupabase() {
     return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

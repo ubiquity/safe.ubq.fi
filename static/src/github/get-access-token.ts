@@ -1,6 +1,5 @@
-import { checkSupabaseSession } from "../supabase/session";
+import { checkSupabaseSession, SUPABASE_STORAGE_KEY } from "../supabase/session";
 
-declare const SUPABASE_STORAGE_KEY: string; // @DEV: passed in at build time check build/esbuild-build.ts
 
 export async function getGitHubAccessToken(): Promise<string | null> {
     // better to use official function, looking up localstorage has flaws

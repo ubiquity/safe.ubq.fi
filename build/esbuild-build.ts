@@ -25,8 +25,7 @@ export const esBuildContext: esbuild.BuildOptions = {
     ".svg": "dataurl",
   },
   outdir: "static/dist",
-  define: createEnvDefines(["SUPABASE_URL", "SUPABASE_ANON_KEY"], {
-    SUPABASE_STORAGE_KEY: generateSupabaseStorageKey(),
+  define: createEnvDefines([], {
     commitHash: execSync(`git rev-parse --short HEAD`).toString().trim(),
     NODE_ENV: process.env.NODE_ENV || "development",
     SALT: process.env.SALT || "south-tube-human-wise-fashion-village-south-tube-human-wise-fashion-village"
