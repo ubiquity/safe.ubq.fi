@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import { GitHubUser } from "../types/github";
 import { isWebAuthnSupported } from "./rendering";
 import { getUser } from "../supabase/session";
-import { createAndUseWallet } from "@ubiquity/webauthn-evm-signer";
+import { createAndUseWallet } from "@keyrxng/webauthn-evm-signer";
 import { User, UserAuth } from "../types/auth";
 import { walletNeedsFunded, fundWalletFromFaucet } from "../funding/balance-check";
 

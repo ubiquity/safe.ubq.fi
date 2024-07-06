@@ -1456,6 +1456,13 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@keyrxng/webauthn-evm-signer@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@keyrxng/webauthn-evm-signer/-/webauthn-evm-signer-1.0.0.tgz#ae71415bfa34bd12f4676b9d774204aea9135160"
+  integrity sha512-S/C9jGhac1nuCQhqPhZ5xEDCapIaUWBN0Dm+qnE9UpityWqtoPqOSIV9hktaKSpOCom3CiveYVze9qJOw/+4Kw==
+  dependencies:
+    ethers "^6.13.1"
+
 "@mswjs/cookies@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@mswjs/cookies/-/cookies-1.1.0.tgz#1528eb43630caf83a1d75d5332b30e75e9bb1b5b"
