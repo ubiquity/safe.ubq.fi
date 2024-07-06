@@ -1,9 +1,13 @@
 import { BigNumberish, ethers, formatUnits, Wallet, ZeroAddress } from "ethers";
-import { provider } from "../funding/balance-check";
 
 
-export async function renderSafeUI(signer: Wallet) {
+export async function renderSafeUI(signer?: Wallet) {
     const container = document.createElement("div")
+    if (!signer) {
+        container.innerHTML = "No signer available"
+        return container
+    }
+
     const { address, privateKey: signerPk } = signer
     const signerInfo = `
         <div style="display: flex; flex-direction: column; margin-left: 6px">

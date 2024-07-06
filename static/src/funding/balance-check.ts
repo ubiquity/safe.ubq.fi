@@ -10,23 +10,42 @@ export async function walletNeedsFunded(signer: Wallet) {
 export async function fundWalletFromFaucet(signer: Wallet) {
     const workerUrl = "https://ubq-gas-faucet.keyrxng7749.workers.dev/?address=" + signer.address;
     let res: Response | null = null;
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
     try {
-        res = await fetch(workerUrl, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+        res = await fetch(workerUrl, options);
+    } catch (e) {
+        await retryWrapper(async () => {
+            res = await fetch(workerUrl, options);
         });
 
-        if (res.status !== 200) {
-            throw new Error("Failed to fund wallet from faucet");
+        if (!res || !res.ok) {
+            throw new Error("Faucet work has likely exceeded limits, try again shortly.")
         }
-
-    } catch (e) {
-        console.error(e);
     }
 
-    if (res) {
-        return res.json();
+    if (!res || !res.ok) {
+        return null;
     }
+
+    return res.json();
+}
+
+async function retryWrapper(fn: () => Promise<any>, retries = 3) {
+    let res;
+    let backoff = 7500;
+    for (let i = 0; i < retries; i++) {
+        try {
+            res = await fn();
+            break;
+        } catch (e) {
+            console.error(e);
+        }
+        await new Promise((resolve) => setTimeout(resolve, backoff * (i + 1)));
+    }
+    return res;
 }

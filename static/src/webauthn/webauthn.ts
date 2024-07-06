@@ -32,10 +32,31 @@ export async function webAuthn(ghUser?: GitHubUser | null) {
     const signer = await handleUser(user, userAuth, provider);
 
     if (await walletNeedsFunded(signer)) {
-        const killToast = toastNotification("Funding wallet from faucet...");
+        toastNotification("Funding wallet from faucet...", 5000);
         const res = await fundWalletFromFaucet(signer);
-        console.log("res", res); // @todo: handle this better
-        killToast();
+        if (!res || !res?.txHash) {
+            toastNotification("Failed to fund wallet from faucet", 5000);
+            return;
+        }
+        console.log("Faucet response", res);
+
+        const txHash = res.txHash;
+
+        console.log("Waiting for transaction to be mined", txHash)
+
+        const waitingToBeMinedKill = toastNotification("Waiting for transaction to be mined...")
+        await provider.waitForTransaction(txHash);
+
+        const receipt = await provider.getTransaction(txHash);
+        console.log("Transaction mined", receipt);
+
+        waitingToBeMinedKill();
+
+        if (!receipt) {
+            toastNotification("Failed to fund wallet from faucet", 5000);
+        } else {
+            toastNotification("Wallet successfully funded", 5000)
+        }
     } else {
         toastNotification("Wallet already funded");
     }
@@ -43,7 +64,7 @@ export async function webAuthn(ghUser?: GitHubUser | null) {
     return signer;
 }
 
-function toastNotification(message: string) {
+function toastNotification(message: string, timeout?: number) {
     const toast = document.createElement("div");
     toast.textContent = message;
 
@@ -62,9 +83,19 @@ function toastNotification(message: string) {
 
     document.body.appendChild(toast);
 
-    return () => {
+    function killToast() {
         document.body.removeChild(toast);
     }
+
+    if (!timeout) {
+        return killToast;
+    }
+
+    setTimeout(() => {
+        killToast();
+    }, timeout);
+
+    return killToast;
 }
 
 function abortControlHandler() {
