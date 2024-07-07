@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { TopNavBar } from "@/components/navbar";
+import { GridBackground } from "@/components/grid";
 
 const UBIQUITY_REWARDS = "Ubiquity Rewards";
 
@@ -36,7 +37,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <GridBackground>{children}</GridBackground>
+      </body>
     </html>
   );
 }
