@@ -1,28 +1,41 @@
-import { GeistSans } from "geist/font/sans";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+const UBIQUITY_REWARDS = "Ubiquity Rewards";
 
-export const metadata = {
-  metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+export const metadata: Metadata = {
+  title: "Ubiquity Rewards | Ubiquity DAO",
+  description: UBIQUITY_REWARDS,
+  robots: "index,follow",
+  twitter: {
+    card: "summary_large_image",
+    creator: "@UbiquityDAO",
+    description: UBIQUITY_REWARDS,
+    title: UBIQUITY_REWARDS,
+  },
+  openGraph: {
+    description: UBIQUITY_REWARDS,
+    siteName: UBIQUITY_REWARDS,
+    title: UBIQUITY_REWARDS,
+    type: "website",
+    url: "https://pay.ubq.fi/",
+  },
+};
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en" className={GeistSans.className}>
-      <body className="bg-background text-foreground">
-        <main className="min-h-screen flex flex-col items-center">
-          {children}
-        </main>
-      </body>
+    <html lang="en">
+      <body>{children}</body>
     </html>
   );
 }
