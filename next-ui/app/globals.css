@@ -1,4 +1,3 @@
-
 @import url("styles/rewards/pay.css");
 @import url("styles/rewards/background.css");
 @import url("styles/toast.css");
@@ -94,12 +93,12 @@
   }
   html {
     background-color: #fff;
-  }
+    }
 
   table tbody,
   table thead {
     box-shadow: inset 0 0 96px #00000008;
-  }
+    }
   .notifications .toast {
     border: 1px solid var(--light-mode-border-color);
     background-color: var(--light-mode-background-color-default);
@@ -107,10 +106,10 @@
 
   #carousel > div:hover {
     color: #000;
-  }
+    }
   tbody,
   thead {
     background-color: #fff;
     border: 1px solid var(--light-mode-border-color);
+    }
   }
-}

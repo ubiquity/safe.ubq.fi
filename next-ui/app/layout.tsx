@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { TopNavBar } from "@/components/navbar";
 
 const UBIQUITY_REWARDS = "Ubiquity Rewards";
 
