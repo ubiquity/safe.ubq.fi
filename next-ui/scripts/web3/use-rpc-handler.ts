@@ -1,9 +1,8 @@
 import { AppState } from "@/utils/app-state";
 // @ts-expect-error - no types
-import { RPCHandler } from "@ubiquity-dao/rpc-handler";
+import getHandler from "@ubiquity-dao/rpc-handler";
 
-
-export function useHandler(networkId: number) {
+export async function useHandler(networkId: number) {
     const config = {
         networkId: networkId,
         autoStorage: true,
@@ -14,8 +13,8 @@ export function useHandler(networkId: number) {
         networkRpcs: null,
     };
 
-    // No RPCs are tested at this point
-    return new RPCHandler(config);
+    const handler = await getHandler();
+    return new handler(config);
 }
 
 export async function useRpcHandler(app: AppState) {

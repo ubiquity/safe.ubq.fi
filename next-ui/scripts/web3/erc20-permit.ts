@@ -6,7 +6,6 @@ import { BigNumberish, Contract, JsonRpcSigner, TransactionResponse, ethers } fr
 import { app, AppState } from "@/utils/app-state";
 import { errorToast, getButtonController, MetaMaskError, toaster } from "@/components/toaster";
 import { erc20Abi, permit2Abi } from "../abis";
-import { supabase } from "../render-transaction/read-claim-data-from-url";
 
 export async function fetchTreasury(permit: PermitReward): Promise<{ balance: BigNumberish; allowance: BigNumberish; decimals: number; symbol: string }> {
     let balance: BigNumberish, allowance: BigNumberish, decimals: number, symbol: string;
@@ -131,8 +130,8 @@ export async function claimErc20PermitHandlerWrapper(app: AppState) {
     const receipt = await waitForTransaction(tx);
     if (!receipt) return;
 
-    const isHashUpdated = await updatePermitTxHash(app, receipt.hash);
-    if (!isHashUpdated) return;
+    // const isHashUpdated = await updatePermitTxHash(app, receipt.hash);
+    // if (!isHashUpdated) return;
 }
 
 async function checkPermitClaimable(app: AppState): Promise<boolean> {
@@ -291,17 +290,17 @@ function nonceBitmap(nonce: BigNumberish): { wordPos: BigNumberish; bitPos: numb
     return { wordPos, bitPos };
 }
 
-async function updatePermitTxHash(app: AppState, hash: string): Promise<boolean> {
-    const { error } = await supabase
-        .from("permits")
-        .update({ transaction: hash })
-        // using only nonce in the condition as it's defined unique on db
-        .eq("nonce", app.reward.nonce.toString());
+// async function updatePermitTxHash(app: AppState, hash: string): Promise<boolean> {
+//     const { error } = await supabase
+//         .from("permits")
+//         .update({ transaction: hash })
+//         // using only nonce in the condition as it's defined unique on db
+//         .eq("nonce", app.reward.nonce.toString());
 
-    if (error !== null) {
-        console.error(error);
-        throw error;
-    }
+//     if (error !== null) {
+//         console.error(error);
+//         throw error;
+//     }
 
-    return true;
-}
+//     return true;
+// }

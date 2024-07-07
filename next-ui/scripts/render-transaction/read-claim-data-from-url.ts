@@ -1,6 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
-import { decodePermits } from "@ubiquibot/permit-generation/dist/handlers";
-import { PermitReward } from "@ubiquibot/permit-generation/dist/types";
+// @ts-expect-error - no types
+import { decodePermits } from "@ubiquibot/permit-generation/handlers";
+// @ts-expect-error - no types
+import { PermitReward } from "@ubiquibot/permit-generation/types";
 import { connectWallet } from "../web3/connect-wallet";
 import { checkRenderInvalidatePermitAdminControl, checkRenderMakeClaimControl } from "../web3/erc20-permit";
 import { verifyCurrentNetwork } from "../web3/verify-current-network";

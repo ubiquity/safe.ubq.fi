@@ -1,4 +1,4 @@
-import { app } from "../app-state";
+import { app } from "@/utils/app-state";
 import { ensLookup } from "../cirip/ens-lookup";
 
 type EnsParams =
@@ -18,7 +18,7 @@ type EnsParams =
 export async function renderEnsName({ element, address, tokenAddress, tokenView }: EnsParams): Promise<void> {
     let href: string = "";
     try {
-        const resolved = await ensLookup(address);
+        const resolved = await ensLookup(address, app.networkId as number);
         let ensName: undefined | string;
         if (resolved.reverseRecord) {
             ensName = resolved.reverseRecord;

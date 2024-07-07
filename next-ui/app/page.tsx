@@ -1,4 +1,3 @@
-import { createClient } from "@/utils/supabase/server";
 import ClaimsPortal from "../components/claims-portal";
 
 export default async function Page(params: { searchParams: { claim: string } }) {
