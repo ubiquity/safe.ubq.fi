@@ -2,8 +2,8 @@ import { createClient } from "@supabase/supabase-js";
 import { getLocalStore } from "../utils/local-storage";
 import { OAuthToken } from "../types/auth";
 
-const SUPABASE_URL = "https://wfzpewmlyiozupulbuur.supabase.co" // @DEV: passed in at build time check build/esbuild-build.ts
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndmenBld21seWlvenVwdWxidXVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTU2NzQzMzksImV4cCI6MjAxMTI1MDMzOX0.SKIL3Q0NOBaMehH0ekFspwgcu3afp3Dl9EDzPqs1nKs" // @DEV: passed in at build time check build/esbuild-build.ts
+const SUPABASE_URL = "https://wymwvjfvzbhkfkkpmfdo.supabase.co" // @DEV: passed in at build time check build/esbuild-build.ts
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5bXd2amZ2emJoa2Zra3BtZmRvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTk1MTI4MzAsImV4cCI6MjAzNTA4ODgzMH0.Qpd2LFbk2FD1HOyT60bFCMD6coiH5xU3jtcIPJ5ZhR0" // @DEV: passed in at build time check build/esbuild-build.ts
 export const SUPABASE_STORAGE_KEY = generateSupabaseStorageKey(SUPABASE_URL) // @DEV: passed in at build time check build/esbuild-build.ts
 
 function generateSupabaseStorageKey(url: string): string | null {
@@ -25,27 +25,6 @@ function generateSupabaseStorageKey(url: string): string | null {
 
 export function getSupabase() {
     return createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-}
-
-export async function getUser() {
-    const { data: { user }, error } = await getSupabase().auth.getUser();
-    if (error) {
-        throw new Error(error.message);
-    }
-
-    if (user) {
-
-        if (!user.identities) {
-            throw new Error("No identities found for user");
-        }
-        return {
-            id: user.id,
-            iid: user.identities[0].identity_id || "",
-            ca: user.created_at,
-        }
-    }
-
-    return null;
 }
 
 export async function checkSupabaseSession() {
