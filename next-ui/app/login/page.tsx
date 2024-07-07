@@ -8,17 +8,19 @@ export default function Login() {
   const signIn = async () => {
     "use server";
 
+    const origin = headers().get("origin");
+
     const supabase = createClient();
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: "/auth/callback",
+        redirectTo: `${origin}/auth/callback/?next=/protected`,
       },
     });
 
     if (data.url) {
-      redirect(data.url); // use the redirect API for your server framework
+      redirect(data.url);
     }
 
     if (error) {
