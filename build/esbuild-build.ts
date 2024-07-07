@@ -30,6 +30,7 @@ export const esBuildContext: esbuild.BuildOptions = {
     NODE_ENV: process.env.NODE_ENV || "development",
     SALT: process.env.SALT || "south-tube-human-wise-fashion-village-south-tube-human-wise-fashion-village"
   }),
+  platform: "browser",
 };
 
 esbuild
