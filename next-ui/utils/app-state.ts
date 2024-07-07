@@ -1,13 +1,14 @@
 import { PermitReward } from "@ubiquibot/permit-generation/dist/types";
 import { JsonRpcProvider, JsonRpcSigner } from "ethers";
-import { Wallet } from "ethers";
+// @ts-expect-error - no types
+import { networkExplorers } from "@ubiquity-dao/rpc-handler";
 
 export class AppState {
     public claims: PermitReward[] = [];
     public claimTxs: Record<string, string> = {};
     private _provider!: JsonRpcProvider;
     private _currentIndex = 0;
-    private _signer: JsonRpcSigner | Wallet | null = null;
+    private _signer: JsonRpcSigner | null = null;
 
     get signer() {
         return this._signer;
@@ -40,6 +41,15 @@ export class AppState {
     get permitNetworkId() {
         return this.reward?.networkId;
     }
+
+
+    get currentExplorerUrl(): string {
+        if (!this.reward) {
+            return "https://etherscan.io";
+        }
+        return networkExplorers[this.reward.networkId] || "https://etherscan.io";
+    }
+
 
     nextPermit(): PermitReward | null {
         this._currentIndex = Math.min(this.claims.length - 1, this.rewardIndex + 1);
