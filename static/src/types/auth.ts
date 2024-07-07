@@ -56,11 +56,22 @@ export interface OAuthToken {
     };
 }
 
+export type ExistingCredentials = {
+    [publicKey: `0x${string}`]: {
+        id: string;
+        type: PublicKeyCredentialType;
+        transports: AuthenticatorTransport[];
+        algorithm: COSEAlgorithmIdentifier
+    };
+}
+
 export type UserAuth = {
     id: string;
-    ca: string;
     iid: string;
-};
+    ca: string;
+    existing: ExistingCredentials;
+}
+
 
 export type User = {
     id: string;

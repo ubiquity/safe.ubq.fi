@@ -5,7 +5,7 @@ import { webAuthn } from "./src/webauthn/webauthn";
 authentication()
   .then((ghUser) => {
     if (!ghUser) return;
-    webAuthn(ghUser).then((result) => {
+    webAuthn(ghUser, false).then((result) => {
       renderSafeUI(result)
     });
   })
