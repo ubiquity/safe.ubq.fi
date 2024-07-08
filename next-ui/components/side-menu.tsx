@@ -17,17 +17,17 @@ export default function SideMenu({ loggedIn, signIn, signOut }: { loggedIn: bool
       label: "Account",
       children: loggedIn
         ? [
-            { label: "Profile", href: "/profile" },
-            { label: "Logout", href: "/auth/?action=sign-out", action: signOut },
+            { label: "Profile", href: "/account" },
+            { label: "Logout", action: signOut },
           ]
-        : [{ label: "Login", href: "/auth/?action=sign-in", action: signIn }],
+        : [{ label: "Login", action: signIn }],
     },
     {
       label: "Navigation",
       children: [
         { label: "Home", href: "/" },
         { label: "Claims", href: "/claim" },
-        { label: "Account", href: "/register" },
+        { label: "Account", href: "/account" },
       ],
     },
   ];
@@ -49,7 +49,7 @@ export default function SideMenu({ loggedIn, signIn, signOut }: { loggedIn: bool
             {item.children.map((child) => (
               <>
                 {child.action ? (
-                  <form>
+                  <form key={child.label}>
                     {loggedIn ? (
                       <SubmitButton formAction={signOut}>
                         <ChevronRight className="w-6 h-6 " />

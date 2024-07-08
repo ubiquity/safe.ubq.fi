@@ -1,13 +1,11 @@
-import { createClient } from "@/utils/supabase/server";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Icon } from "./icons";
+import { getUser } from "@/scripts/supabase/server-side";
 
 // Secure Context
 export default async function UserAvatar() {
-  const supabase = createClient();
-
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data?.user) {
+  const user = await getUser();
+  if (!user) {
     return (
       <Avatar>
         <Icon name="logoIcon" className="opacity-50" />
@@ -17,7 +15,7 @@ export default async function UserAvatar() {
 
   return (
     <Avatar>
-      <AvatarImage src={data.user.user_metadata.avatar_url} />
+      <AvatarImage src={user.user_metadata.avatar_url} />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
   );
