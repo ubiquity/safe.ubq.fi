@@ -9,7 +9,7 @@ import {
 import UserAvatar from "./avatar";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { SubmitButton } from "@/app/login/submit-button";
+import { SubmitButton } from "./submit-button";
 
 export default function SideMenu({ loggedIn, signIn, signOut }: { loggedIn: boolean; signIn: () => Promise<never>; signOut: () => Promise<never> }) {
   const menuItems = [
@@ -49,22 +49,14 @@ export default function SideMenu({ loggedIn, signIn, signOut }: { loggedIn: bool
             {item.children.map((child) => (
               <>
                 {child.action ? (
-                  <form className="">
+                  <form>
                     {loggedIn ? (
-                      <SubmitButton
-                        formAction={signOut}
-                        className="w-full align-middle items-center flex gap-1 cursor-pointer hover:bg-[#444]  hover:text-white text-[#999]"
-                        pendingText="Signing Up..."
-                      >
+                      <SubmitButton formAction={signOut}>
                         <ChevronRight className="w-6 h-6 " />
                         <DropdownMenuItem className="flex items-center gap-2">Sign Out</DropdownMenuItem>
                       </SubmitButton>
                     ) : (
-                      <SubmitButton
-                        formAction={signIn}
-                        className="w-full align-middle items-center flex gap-1 cursor-pointer hover:bg-[#444]  hover:text-white text-[#999]"
-                        pendingText="Signing In..."
-                      >
+                      <SubmitButton formAction={signIn}>
                         <ChevronRight className="w-6 h-6 " />
                         <DropdownMenuItem className="flex items-center gap-2">Sign In</DropdownMenuItem>
                       </SubmitButton>

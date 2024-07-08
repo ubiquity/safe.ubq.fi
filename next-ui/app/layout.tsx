@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { TopNavBar } from "@/components/navbar";
 import { GridBackground } from "@/components/grid";
+import { NavBar } from "@/components/navbar";
+import { Toaster } from "@/components/ui/sonner";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 
 const UBIQUITY_REWARDS = "Ubiquity Rewards";
 
@@ -30,6 +34,46 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
+const signIn = async () => {
+  "use server";
+
+  const origin = headers().get("origin");
+
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "github",
+    options: {
+      redirectTo: `${origin}/auth/callback/`,
+    },
+  });
+
+  if (data.url) {
+    redirect(data.url);
+  }
+
+  if (error) {
+    return redirect("/login?message=Could not authenticate user");
+  }
+
+  return redirect("/account");
+};
+
+const signOut = async () => {
+  "use server";
+
+  const origin = headers().get("origin");
+  const supabase = createClient();
+
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    return redirect("/login?message=Could not sign out user");
+  }
+
+  return redirect(`/${origin}`);
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,7 +82,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <GridBackground>{children}</GridBackground>
+        <GridBackground>
+          <NavBar signIn={signIn} signOut={signOut} />
+          {children}
+        </GridBackground>
+        <Toaster />
       </body>
     </html>
   );
