@@ -1,15 +1,11 @@
 import { createClient } from "@/utils/supabase/server";
-import { toast } from "sonner";
 
 /**
  * Server-side only
  */
 export async function getUser() {
     const supabase = createClient();
-    const { error, data: { user } } = await supabase.auth.getUser()
-    if (error) {
-        toast.error(error.message);
-    }
+    const { data: { user } } = await supabase.auth.getUser()
     return user;
 }
 
