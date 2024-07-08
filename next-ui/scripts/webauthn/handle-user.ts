@@ -1,6 +1,6 @@
-import { createAndUseWallet } from "@keyrxng/webauthn-evm-signer";
+import { createAndUseWallet } from "@keyrxng/webauthn-evm-signe";
 import { JsonRpcProvider, keccak256 } from "ethers";
-import { GitHubUser } from "../types/github";
+import { AuthenticatedGitHubUser, GitHubUser } from "../types/github";
 import { UserAuth } from "../types/auth";
 
 declare const SALT: string;
@@ -27,7 +27,7 @@ export function computeUserID(authedUserID: string, ghUserID: string): string {
 }
 
 export async function handleUser(
-    ghUser: GitHubUser,
+    ghUser: AuthenticatedGitHubUser,
     authUser: UserAuth,
     provider: JsonRpcProvider,
     challenge?: string,

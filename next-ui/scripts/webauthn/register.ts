@@ -1,12 +1,12 @@
-import { RegistrationCredential } from "@keyrxng/webauthn-evm-signer";
+import { RegistrationCredential } from "@keyrxng/webauthn-evm-signe";
 import { provider } from "../funding/balance-check";
 import { getSupabase } from "../supabase/session";
-import { GitHubUser } from "../types/github";
+import { AuthenticatedGitHubUser } from "../types/github";
 import { handleUser } from "./handle-user";
 import { ExistingCredentials, UserAuth } from "../types/auth";
 import { getUserExistingCreds } from "../supabase/server-side";
 
-export async function registering(ghUser: GitHubUser, oauthUser: UserAuth) {
+export async function registering(ghUser: AuthenticatedGitHubUser, oauthUser: UserAuth) {
     const account = await handleUser(ghUser, oauthUser, provider, undefined, true)
     if (!account) throw new Error("Account not found")
     const { wallet, auth } = account;

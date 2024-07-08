@@ -1,6 +1,5 @@
 import { Wallet } from "ethers";
 import { GitHubUser } from "../types/github";
-import { isWebAuthnSupported } from "./rendering";
 import { toastNotification } from "../utils/notification";
 import { handleFunding } from "../funding/fund";
 import { registering } from "./register";
@@ -24,7 +23,6 @@ export async function webAuthn(ghUser: GitHubUser, isRegistering: boolean) {
 }
 
 async function getWebAuthnWallet(ghUser: GitHubUser, isRegistering: boolean, challenge?: string): Promise<Wallet> {
-    await isWebAuthnSupported();
     const authedUser = await getAuthedUser();
     if (!authedUser) throw new Error("User not found");
 
