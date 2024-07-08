@@ -1,9 +1,8 @@
 "use client";
 import React from "react";
 import { CommitHashDisplay } from "./commit-hash";
-import { Icon } from "./icons";
-import { GridBackground } from "./grid";
-import { app } from "../utils/app-state";
+import { Icon } from "../../../components/icons";
+import { app } from "../../../utils/app-state";
 import { readClaimDataFromUrl } from "@/scripts/render-transaction/read-claim-data-from-url";
 import { claimErc20PermitHandlerWrapper } from "@/scripts/web3/erc20-permit";
 import { viewClaimHandler } from "@/scripts/render-transaction/render-transaction";
@@ -19,20 +18,6 @@ export default function ClaimsPortal({ permits }: { permits?: string }) {
   return (
     <>
       <main>
-        <header>
-          <a href="https://ubq.fi/">
-            <div id="logo">
-              <div id="logo-icon">
-                <Icon name="logoIcon" />
-              </div>
-              <div id="logo-text">
-                <span>Ubiquity</span>
-                <span>Rewards</span>
-              </div>
-            </div>
-          </a>
-        </header>
-
         <div>
           <table data-details-visible="false" data-make-claim-rendered="false" data-contract-loaded="false" data-make-claim="error">
             <thead>

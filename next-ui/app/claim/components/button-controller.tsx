@@ -3,6 +3,19 @@ const MAKE_CLAIM = "data-make-claim";
 const VIEW_CLAIM = "data-view-claim";
 const INVALIDATOR = "data-invalidator";
 
+export function getMakeClaimButton() {
+  return document.getElementById("make-claim") as HTMLButtonElement;
+}
+
+export function getViewClaimButton() {
+  return document.getElementById("view-claim") as HTMLButtonElement;
+}
+
+export function getButtonController() {
+  const controls = document.getElementById("controls") as HTMLDivElement;
+  return new ButtonController(controls);
+}
+
 export class ButtonController {
   private _controls: HTMLDivElement;
 
