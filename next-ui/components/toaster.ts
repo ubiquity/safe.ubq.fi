@@ -1,5 +1,5 @@
 "use client";
-import { ButtonController } from "./button-controller";
+import { ButtonController, getButtonController } from "../app/claim/components/button-controller";
 
 export const toaster = {
     create: createToast,
@@ -12,18 +12,6 @@ export const toaster = {
     },
 };
 
-export function getMakeClaimButton() {
-    return document.getElementById("make-claim") as HTMLButtonElement;
-}
-
-export function getViewClaimButton() {
-    return document.getElementById("view-claim") as HTMLButtonElement;
-}
-
-export function getButtonController() {
-    const controls = document.getElementById("controls") as HTMLDivElement;
-    return new ButtonController(controls);
-}
 
 function createToast(meaning: keyof typeof toaster.icons, text: string, timeout: number = 5000) {
     const notifications = document.querySelector(".notifications") as HTMLUListElement;
