@@ -8,8 +8,8 @@ import { verifyCurrentNetwork } from "../web3/verify-current-network";
 import { insertErc20PermitTableData, insertErc721PermitTableData } from "./insert-table-data";
 import { renderEnsName } from "./render-ens-name";
 import { renderNftSymbol, renderTokenSymbol } from "./render-token-symbol";
-import { AppState, app } from "@/utils/app-state";
-import { getButtonController, getMakeClaimButton } from "@/components/toaster";
+import { AppState, app } from "@/lib/app-state";
+import { getButtonController, getMakeClaimButton } from "../../components/button-controller";
 
 type Success = boolean;
 

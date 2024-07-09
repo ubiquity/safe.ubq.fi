@@ -1,5 +1,5 @@
-import { getButtonController } from "@/components/toaster";
 import { JsonRpcSigner, BrowserProvider } from "ethers";
+import { getButtonController } from "../../components/button-controller";
 
 export async function connectWallet(): Promise<JsonRpcSigner | null> {
     try {

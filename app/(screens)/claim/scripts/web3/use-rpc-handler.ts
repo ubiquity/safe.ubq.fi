@@ -1,4 +1,4 @@
-import { AppState } from "@/utils/app-state";
+import { AppState } from "@/lib/app-state";
 // @ts-expect-error - no types
 import getHandler from "@ubiquity-dao/rpc-handler";
 

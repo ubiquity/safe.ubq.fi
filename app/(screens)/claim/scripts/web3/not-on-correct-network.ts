@@ -2,7 +2,8 @@
 import { getNetworkName } from "@ubiquity-dao/rpc-handler";
 import { switchNetwork } from "./switch-network";
 import { Web3Provider } from "@ethersproject/providers";
-import { getButtonController, toaster } from "@/components/toaster";
+import { toaster } from "../../components/toaster";
+import { getButtonController } from "../../components/button-controller";
 
 export function notOnCorrectNetwork(currentNetworkId: number, desiredNetworkId: number, web3provider: Web3Provider) {
     if (currentNetworkId !== desiredNetworkId) {

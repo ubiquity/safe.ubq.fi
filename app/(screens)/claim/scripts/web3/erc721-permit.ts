@@ -1,9 +1,10 @@
 import { PermitReward } from "@ubiquibot/permit-generation/dist/types";
 import { ethers, JsonRpcProvider, TransactionResponse } from "ethers";
 import { connectWallet } from "./connect-wallet";
-import { getButtonController, getMakeClaimButton, toaster } from "@/components/toaster";
-import { app } from "@/utils/app-state";
+import { toaster } from "../../components/toaster";
+import { app } from "@/lib/app-state";
 import { nftRewardAbi } from "../abis/nft-reward-abi";
+import { getButtonController, getMakeClaimButton } from "../../components/button-controller";
 
 export function claimErc721PermitHandler(reward: PermitReward) {
     return async function claimHandler() {

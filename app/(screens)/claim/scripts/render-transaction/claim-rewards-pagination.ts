@@ -1,7 +1,7 @@
-import { getMakeClaimButton } from "@/components/toaster";
 import { removeAllEventListeners } from "./utils";
 import { renderTransaction } from "./render-transaction";
-import { app } from "@/utils/app-state";
+import { app } from "@/lib/app-state";
+import { getMakeClaimButton } from "@/app/(screens)/claim/components/button-controller";
 
 export function claimRewardsPagination(rewardsCount: HTMLElement) {
     const nextTxButton = document.getElementById("nextTx");

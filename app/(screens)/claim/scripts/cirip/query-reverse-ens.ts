@@ -1,4 +1,4 @@
-import { app } from "@/utils/app-state";
+import { app } from "@/lib/app-state";
 import { useRpcHandler } from "../web3/use-rpc-handler";
 import { reverseEnsInterface } from "./ens-lookup";
 

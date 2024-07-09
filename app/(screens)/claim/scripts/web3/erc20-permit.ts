@@ -3,9 +3,10 @@
 import { permit2Address } from "@ubiquity-dao/rpc-handler";
 import { PermitReward } from "@ubiquibot/permit-generation/dist/types";
 import { BigNumberish, Contract, JsonRpcSigner, TransactionResponse, ethers } from "ethers";
-import { app, AppState } from "@/utils/app-state";
-import { errorToast, getButtonController, MetaMaskError, toaster } from "@/components/toaster";
+import { app, AppState } from "@/lib/app-state";
 import { erc20Abi, permit2Abi } from "../abis";
+import { errorToast, MetaMaskError, toaster } from "../../components/toaster";
+import { getButtonController } from "../../components/button-controller";
 
 export async function fetchTreasury(permit: PermitReward): Promise<{ balance: BigNumberish; allowance: BigNumberish; decimals: number; symbol: string }> {
     let balance: BigNumberish, allowance: BigNumberish, decimals: number, symbol: string;

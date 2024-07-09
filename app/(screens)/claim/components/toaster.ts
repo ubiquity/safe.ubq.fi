@@ -1,5 +1,6 @@
 "use client";
-import { ButtonController, getButtonController } from "../app/claim/components/button-controller";
+
+import { getButtonController } from "@/app/(screens)/claim/components/button-controller";
 
 export const toaster = {
     create: createToast,
@@ -26,6 +27,7 @@ function createToast(meaning: keyof typeof toaster.icons, text: string, timeout:
         timer: timeout,
     } as {
         timer: number;
+        // @ts-expect-error - no types
         timeoutId?: NodeJS.Timeout;
     };
     // Getting the icon and text for the toast based on the id passed
@@ -49,7 +51,7 @@ function createToast(meaning: keyof typeof toaster.icons, text: string, timeout:
         toastDetails.timeoutId = setTimeout(() => removeToast(toastContent, toastDetails.timeoutId), toastDetails.timer);
     }
 }
-
+// @ts-expect-error - no types
 function removeToast(toast: HTMLElement, timeoutId?: NodeJS.Timeout) {
     toast.classList.add("hide");
     if (timeoutId) {

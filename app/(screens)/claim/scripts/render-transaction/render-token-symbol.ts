@@ -1,6 +1,6 @@
 import { BigNumberish, ethers, formatUnits } from "ethers";
 import { erc20Abi } from "../abis/erc20Abi";
-import { app } from "@/utils/app-state";
+import { app } from "@/lib/app-state";
 
 export async function renderTokenSymbol({
     table,

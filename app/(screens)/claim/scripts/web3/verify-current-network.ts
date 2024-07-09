@@ -1,4 +1,4 @@
-import { AppState } from "@/utils/app-state";
+import { AppState } from "@/lib/app-state";
 import { handleIfOnCorrectNetwork } from "./handle-if-on-correct-network";
 import { notOnCorrectNetwork } from "./not-on-correct-network";
 import { Web3Provider } from "@ethersproject/providers";

@@ -1,4 +1,4 @@
-import { app } from "@/utils/app-state";
+import { app } from "@/lib/app-state";
 import { ensLookup } from "../cirip/ens-lookup";
 
 type EnsParams =

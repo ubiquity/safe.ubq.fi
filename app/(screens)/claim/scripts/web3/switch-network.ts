@@ -1,4 +1,4 @@
-import { getButtonController } from "@/components/toaster";
+import { getButtonController } from "../../components/button-controller";
 import { addNetwork } from "./add-network";
 import { Web3Provider } from "@ethersproject/providers";
 

@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import { CommitHashDisplay } from "./commit-hash";
-import { Icon } from "../../../components/icons";
-import { app } from "../../../lib/app-state";
-import { readClaimDataFromUrl } from "@/scripts/render-transaction/read-claim-data-from-url";
-import { claimErc20PermitHandlerWrapper } from "@/scripts/web3/erc20-permit";
-import { viewClaimHandler } from "@/scripts/render-transaction/render-transaction";
+import { readClaimDataFromUrl } from "@/app/(screens)/claim/scripts/render-transaction/read-claim-data-from-url";
+import { claimErc20PermitHandlerWrapper } from "@/app/(screens)/claim/scripts/web3/erc20-permit";
+import { viewClaimHandler } from "@/app/(screens)/claim/scripts/render-transaction/render-transaction";
+import { app } from "@/lib/app-state";
+import { Icon } from "@/components/icons";
 
 async function setup(permits?: string) {
   await readClaimDataFromUrl(app, permits);

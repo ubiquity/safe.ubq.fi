@@ -7,13 +7,15 @@ import { connectWallet } from "../web3/connect-wallet";
 import { checkRenderInvalidatePermitAdminControl, checkRenderMakeClaimControl } from "../web3/erc20-permit";
 import { verifyCurrentNetwork } from "../web3/verify-current-network";
 import { claimRewardsPagination } from "./claim-rewards-pagination";
-import { AppState, app } from "@/utils/app-state";
-import { toaster } from "@/components/toaster";
+import { AppState, app } from "@/lib/app-state";
 import { renderTransaction } from "./render-transaction";
 import { setClaimMessage } from "./set-claim-message";
 import { useRpcHandler } from "../web3/use-rpc-handler";
+import { toaster } from "../../components/toaster";
 
+// @ts-expect-error - no types
 const key = process.env.SUPABASE_ANON_KEY;
+// @ts-expect-error - no types
 const url = process.env.SUPABASE_URL;
 
 export async function getSupabase() {
