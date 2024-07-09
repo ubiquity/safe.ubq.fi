@@ -1,43 +1,42 @@
 {
-  "name": "ts-template",
-  "version": "1.0.0",
-  "description": "Template repository with TypeScript support.",
-  "main": "build/index.ts",
-  "author": "Ubiquity DAO",
-  "license": "MIT",
-  "engines": {
-    "node": ">=20.10.0"
-  },
+  "private": true,
   "scripts": {
-    "start": "tsx build/esbuild-server.ts",
-    "build": "tsx build/esbuild-build.ts",
-    "format": "run-s format:lint format:prettier format:cspell",
-    "format:lint": "eslint --fix .",
-    "format:prettier": "prettier --write .",
-    "format:cspell": "cspell **/*",
-    "knip": "knip --config .github/knip.ts",
-    "knip-ci": "knip --no-exit-code --reporter json --config .github/knip.ts",
-    "prepare": "husky install",
-    "test": "jest --setupFiles dotenv/config --coverage",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
-  "keywords": [
-    "typescript",
-    "template",
-    "dao",
-    "ubiquity",
-    "open-source"
-  ],
   "dependencies": {
     "@octokit/request-error": "^6.1.1",
     "@octokit/rest": "^21.0.0",
+    "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
+    "@radix-ui/react-avatar": "^1.1.0",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.2",
     "@safe-global/api-kit": "^2.4.2",
     "@safe-global/protocol-kit": "^4.0.2",
     "@safe-global/safe-core-sdk-types": "^5.0.2",
-    "@supabase/supabase-js": "^2.43.5",
+    "@supabase/ssr": "latest",
+    "@supabase/supabase-js": "latest",
+    "@ubiquity-dao/rpc-handler": "latest",
+    "autoprefixer": "10.4.17",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "dotenv": "^16.4.4",
     "ethers": "^6.13.1",
+    "lucide-react": "^0.401.0",
+    "next": "latest",
+    "next-themes": "^0.3.0",
+    "postcss": "8.4.33",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sonner": "^1.5.0",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss": "3.4.1",
+    "tailwindcss-animate": "^1.0.7",
     "webauthn-p256": "^0.0.2"
   },
   "devDependencies": {
@@ -50,8 +49,11 @@
     "@mswjs/data": "0.16.1",
     "@types/jest": "29.5.12",
     "@types/node": "^20.11.19",
+    "@types/react": "18.2.48",
+    "@types/react-dom": "18.2.18",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
+    "@ubiquibot/permit-generation": "latest",
     "cspell": "^8.4.0",
     "cypress": "13.6.6",
     "esbuild": "^0.20.1",
@@ -67,24 +69,12 @@
     "knip": "^5.0.1",
     "lint-staged": "^15.2.2",
     "npm-run-all": "^4.1.5",
+    "postcss-import": "^16.1.0",
+    "postcss-nesting": "^12.1.5",
     "prettier": "^3.2.5",
     "ts-jest": "29.1.2",
     "tsx": "^4.7.1",
-    "typescript": "^5.3.3"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "yarn prettier --write",
-      "eslint --fix"
-    ],
-    "src/**.{ts,json}": [
-      "cspell"
-    ]
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
+    "typescript": "latest"
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
