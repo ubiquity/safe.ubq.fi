@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Icon } from "./icons";
+import { Icon } from "../icons";
 import SideMenu from "./side-menu";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/app/lib/supabase/server";
 
 export async function NavBar({
   signIn,

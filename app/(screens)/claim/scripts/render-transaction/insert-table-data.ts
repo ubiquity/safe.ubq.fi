@@ -1,4 +1,4 @@
-import { app, AppState } from "@/lib/app-state";
+import { app, AppState } from "@/app/(screens)/claim/components/app-state";
 import { PermitReward } from "@ubiquibot/permit-generation/dist/types";
 import { BigNumberish, formatUnits } from "ethers";
 

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/app/lib/supabase/client";
 import { Octokit } from "@octokit/rest";
 
 export async function getClientOctokit() {

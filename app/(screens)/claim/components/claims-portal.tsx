@@ -4,7 +4,7 @@ import { CommitHashDisplay } from "./commit-hash";
 import { readClaimDataFromUrl } from "@/app/(screens)/claim/scripts/render-transaction/read-claim-data-from-url";
 import { claimErc20PermitHandlerWrapper } from "@/app/(screens)/claim/scripts/web3/erc20-permit";
 import { viewClaimHandler } from "@/app/(screens)/claim/scripts/render-transaction/render-transaction";
-import { app } from "@/lib/app-state";
+import { app } from "@/app/(screens)/claim/components/app-state";
 import { Icon } from "@/components/icons";
 
 async function setup(permits?: string) {

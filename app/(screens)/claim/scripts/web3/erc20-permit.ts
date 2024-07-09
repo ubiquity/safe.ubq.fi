@@ -3,7 +3,7 @@
 import { permit2Address } from "@ubiquity-dao/rpc-handler";
 import { PermitReward } from "@ubiquibot/permit-generation/dist/types";
 import { BigNumberish, Contract, JsonRpcSigner, TransactionResponse, ethers } from "ethers";
-import { app, AppState } from "@/lib/app-state";
+import { app, AppState } from "@/app/(screens)/claim/components/app-state";
 import { erc20Abi, permit2Abi } from "../abis";
 import { errorToast, MetaMaskError, toaster } from "../../components/toaster";
 import { getButtonController } from "../../components/button-controller";

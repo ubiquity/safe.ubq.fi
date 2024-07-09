@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Icon } from "./icons";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Icon } from "../icons";
 import { getUser } from "@/scripts/supabase/server-side";
 
 // Secure Context

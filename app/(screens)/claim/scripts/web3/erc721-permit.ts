@@ -2,7 +2,7 @@ import { PermitReward } from "@ubiquibot/permit-generation/dist/types";
 import { ethers, JsonRpcProvider, TransactionResponse } from "ethers";
 import { connectWallet } from "./connect-wallet";
 import { toaster } from "../../components/toaster";
-import { app } from "@/lib/app-state";
+import { app } from "@/app/(screens)/claim/components/app-state";
 import { nftRewardAbi } from "../abis/nft-reward-abi";
 import { getButtonController, getMakeClaimButton } from "../../components/button-controller";
 

@@ -6,7 +6,9 @@ export async function updateSession(request: NextRequest) {
     request,
   })
   const supabase = createServerClient(
+    // @ts-expect-error - process,env is provided by Next.js
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    // @ts-expect-error - process,env is provided by Next.js
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {

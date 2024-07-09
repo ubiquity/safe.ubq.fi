@@ -1,4 +1,4 @@
-import { AppState } from "@/lib/app-state";
+import { AppState } from "@/app/(screens)/claim/components/app-state";
 // @ts-expect-error - no types
 import getHandler from "@ubiquity-dao/rpc-handler";
 

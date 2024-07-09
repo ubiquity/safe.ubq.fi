@@ -1,4 +1,5 @@
 export function CommitHashDisplay() {
+  // @ts-expect-error - no types
   const commitHash = process.env.COMMIT_HASH;
 
   if (!commitHash) return null;

@@ -6,10 +6,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import UserAvatar from "./avatar";
+import UserAvatar from "./user-avatar";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { SubmitButton } from "./submit-button";
+import { SubmitButton } from "../client/submit-button";
 
 export default function SideMenu({
   loggedIn,

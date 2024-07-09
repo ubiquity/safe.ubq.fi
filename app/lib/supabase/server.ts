@@ -5,7 +5,9 @@ export const createClient = () => {
   const cookieStore = cookies();
 
   return createServerClient(
+    // @ts-expect-error - process,env is provided by Next.js
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    // @ts-expect-error - process,env is provided by Next.js
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {

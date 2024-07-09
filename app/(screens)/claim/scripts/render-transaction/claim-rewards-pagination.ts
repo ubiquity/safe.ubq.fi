@@ -1,6 +1,6 @@
 import { removeAllEventListeners } from "./utils";
 import { renderTransaction } from "./render-transaction";
-import { app } from "@/lib/app-state";
+import { app } from "@/app/(screens)/claim/components/app-state";
 import { getMakeClaimButton } from "@/app/(screens)/claim/components/button-controller";
 
 export function claimRewardsPagination(rewardsCount: HTMLElement) {

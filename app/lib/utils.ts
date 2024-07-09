@@ -1,3 +1,4 @@
+// @ts-expect-error - no types?
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 

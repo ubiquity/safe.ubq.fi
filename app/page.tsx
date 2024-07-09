@@ -1,4 +1,4 @@
-import { SubmitButton } from "@/components/submit-button";
+import { SubmitButton } from "@/components/client/submit-button";
 
 export default async function Page() {
   return (

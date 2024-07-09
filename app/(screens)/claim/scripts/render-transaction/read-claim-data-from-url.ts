@@ -7,7 +7,7 @@ import { connectWallet } from "../web3/connect-wallet";
 import { checkRenderInvalidatePermitAdminControl, checkRenderMakeClaimControl } from "../web3/erc20-permit";
 import { verifyCurrentNetwork } from "../web3/verify-current-network";
 import { claimRewardsPagination } from "./claim-rewards-pagination";
-import { AppState, app } from "@/lib/app-state";
+import { AppState, app } from "@/app/(screens)/claim/components/app-state";
 import { renderTransaction } from "./render-transaction";
 import { setClaimMessage } from "./set-claim-message";
 import { useRpcHandler } from "../web3/use-rpc-handler";

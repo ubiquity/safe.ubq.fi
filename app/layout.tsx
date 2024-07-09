@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { GridBackground } from "@/components/grid";
-import { NavBar } from "@/components/navbar";
-import { Toaster } from "@/components/ui/sonner";
 import { signIn } from "./api/auth/sign-in";
 import { signOut } from "./api/auth/sign-out";
+import { GridBackground } from "@/components/grid";
+import { NavBar } from "@/components/server/navbar";
+import { Toaster } from "@/components/ui/sonner";
 
 const UBIQUITY_REWARDS = "Ubiquity Rewards";
 

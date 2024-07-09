@@ -11,7 +11,10 @@ export async function GET(request: Request) {
   if (code) {
     const cookieStore = cookies()
     const supabase = createServerClient(
+
+      // @ts-expect-error - process.env is provided by Next.js
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      // @ts-expect-error - process.env is provided by Next.js
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
