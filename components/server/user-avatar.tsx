@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Icon } from "../icons";
-import { getUser } from "@/scripts/supabase/server-side";
+import { getUser } from "@/app/lib/supabase/server-side";
 
 // Secure Context
 export default async function UserAvatar() {

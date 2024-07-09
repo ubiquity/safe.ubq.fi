@@ -1,4 +1,4 @@
-import { createClient } from "@/app/lib/supabase/server";
+import { createClient } from "@/app/lib/supabase/server-side";
 import { redirect } from "next/navigation";
 
 export async function signOut() {

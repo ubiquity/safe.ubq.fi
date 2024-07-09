@@ -1,4 +1,4 @@
-import { createClient } from "@/app/lib/supabase/server";
+import { createClient } from "@/app/lib/supabase/server-side";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 

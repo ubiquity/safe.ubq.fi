@@ -1,15 +1,9 @@
 import Link from "next/link";
 import { Icon } from "../icons";
 import SideMenu from "./side-menu";
-import { createClient } from "@/app/lib/supabase/server";
+import { createClient } from "@/app/lib/supabase/server-side";
 
-export async function NavBar({
-  signIn,
-  signOut,
-}: {
-  signIn: () => Promise<never>;
-  signOut: () => Promise<never>;
-}) {
+export async function NavBar({ signIn, signOut }: { signIn: () => Promise<never>; signOut: () => Promise<never> }) {
   async function isLoggedIn() {
     const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
@@ -42,11 +36,7 @@ export async function NavBar({
 
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
-            <SideMenu
-              loggedIn={userLoggedIn}
-              signIn={signIn}
-              signOut={signOut}
-            />
+            <SideMenu loggedIn={userLoggedIn} signIn={signIn} signOut={signOut} />
           </nav>
         </div>
       </div>
