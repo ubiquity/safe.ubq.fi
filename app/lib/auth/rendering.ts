@@ -1,4 +1,4 @@
-import { getSupabase } from "../supabase/session";
+import { getSupabase } from "../../app/lib/supabase/leagacy_session";
 import { GitHubUser } from "../types/github";
 
 export async function renderGitHubLoginButton() {
