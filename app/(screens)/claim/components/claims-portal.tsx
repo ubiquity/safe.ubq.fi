@@ -13,7 +13,7 @@ async function setup(permits?: string) {
 
 export default function ClaimsPortal({ permits }: { permits?: string }) {
   React.useEffect(() => {
-    setup(permits);
+    setup(permits).catch(console.error);
   }, [permits]);
   return (
     <>

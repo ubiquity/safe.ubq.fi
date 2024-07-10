@@ -1,14 +1,14 @@
 "use client";
 
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
+import { Tabs, TabsContent } from "@radix-ui/react-tabs";
 import { LeftHandProfileBox } from "./profile-box";
 import { User } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { SignerData } from "@/app/lib/eoa/get-signer";
 import { Accounts } from "./accounts";
-import { BreadCrumbs } from "@/components/ui/breadcrumbs";
 import { Credentials } from "./credentials";
 import { MoveFunds } from "./move-funds";
+import { BreadCrumbs } from "@/components/breadcrumbs";
 
 export function Account({ user, signer }: { user: User; signer: SignerData }) {
   const [activeTab, setActiveTab] = useState("accounts");

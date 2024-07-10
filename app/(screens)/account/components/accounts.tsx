@@ -1,8 +1,8 @@
-import { Card } from "@/components/ui/card";
 import { DropDownOptions } from "./drop-down-options";
 import { GroupOptionsSelect } from "./group-options-select";
 import { Button } from "@/components/ui/button";
 import { SignerData } from "@/app/lib/eoa/get-signer";
+import { Card } from "@/components/card";
 
 export function Accounts({ signer, action }: { signer: SignerData | null; action: "create" | "manage" }) {
   if (!signer) {
@@ -28,7 +28,7 @@ export function Accounts({ signer, action }: { signer: SignerData | null; action
   } else if (action === "manage") {
     return (
       <div className="grid grid-flow-row gap-4 mt-2 h-full">
-        <EOADisplay signer={signer} />
+        <WalletDisplay signer={signer} />
         <div className="grid grid-cols-2 gap-4">
           <SafeDisplay />
           <SafeDisplay />
@@ -75,7 +75,7 @@ function CreateSafe() {
   );
 }
 
-function EOADisplay({ signer }: { signer: SignerData }) {
+function WalletDisplay({ signer }: { signer: SignerData }) {
   const { address, daiBalance, ethNativeBalance, gnosisNativeBalance, wxdaiBalance } = signer;
 
   return (

@@ -1,8 +1,6 @@
-import { getDaiBalance, getNativeBalance } from "@/app/lib/eoa/balance";
-import { getAddress } from "@/app/lib/eoa/utils";
 import { getCurrentSession } from "@/app/lib/kv/simple-kv";
 import { getSupabase, getUser } from "@/app/lib/supabase/server-side";
-import { createUser } from "@/app/lib/utils";
+import { createUser, NO_USER_FOUND } from "@/app/lib/utils";
 import { UserDevice, verifyRegistration } from "@keyrxng/webauthn-evm-signer";
 import { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
 import { JsonRpcProvider } from "ethers";
@@ -12,14 +10,14 @@ export async function verifyReg(credential: RegistrationResponseJSON, rpId?: str
   try {
     const supabase = await getSupabase();
     const { data: userData, error } = await supabase.auth.getUser();
-    if (error || !userData.user) throw new Error("No user found");
+    if (error || !userData.user) throw new Error(NO_USER_FOUND);
 
     const user = await getUser(supabase);
     const session = await getCurrentSession();
     const challenge = session.data.currentChallenge;
     const salts = process.env.SALT;
 
-    if (!user) throw new Error("No user found");
+    if (!user) throw new Error(NO_USER_FOUND);
     if (!salts) throw new Error("No salts found");
     if (!challenge) throw new Error("No challenge found");
 
@@ -61,11 +59,11 @@ async function storeDeviceData(device: UserDevice) {
   const supabase = await getSupabase();
   const { data: userData, error } = await supabase.auth.getUser();
   if (error || !userData) {
-    throw new Error("No user found");
+    throw new Error(NO_USER_FOUND);
   }
   const user = await getUser(supabase);
   if (!user) {
-    throw new Error("No user found");
+    throw new Error(NO_USER_FOUND);
   }
 
   const devices = user.user_metadata?.devices || [];

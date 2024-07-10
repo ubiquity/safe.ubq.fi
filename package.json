@@ -3,7 +3,17 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "run-s format:lint format:prettier format:cspell",
+    "format:lint": "eslint --fix .",
+    "format:prettier": "prettier --write .",
+    "format:cspell": "cspell **/*",
+    "knip": "knip --config .github/knip.ts",
+    "knip-ci": "knip --no-exit-code --reporter json --config .github/knip.ts",
+    "prepare": "husky install",
+    "test": "jest --setupFiles dotenv/config --coverage",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "dependencies": {
     "@octokit/request-error": "^6.1.1",
@@ -55,6 +65,7 @@
     "@cspell/dict-typescript": "^3.1.2",
     "@jest/globals": "29.7.0",
     "@mswjs/data": "0.16.1",
+    "@types/ethereum-protocol": "^1.0.5",
     "@types/jest": "29.5.12",
     "@types/node": "^20.11.19",
     "@types/react": "18.2.48",

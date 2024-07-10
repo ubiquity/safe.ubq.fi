@@ -18,7 +18,7 @@ function UpperBox({ usr, handleTabChange }: ProfileBoxParams & { handleTabChange
   return (
     <div className="flex flex-col items-center justify-center">
       <Image width={80} height={80} src={usr.user_metadata?.avatar_url} alt="avatar" className="w-20 h-20 rounded-full" />
-      <p className="text-lg font-bold text-white">{usr.user_metadata?.preffered_username}</p>
+      <p className="text-lg font-bold text-white">{usr.user_metadata?.preferred_username}</p>
       <p className="text-sm text-gray-400">{usr?.email}</p>
       <Separator className="border-t w-full border-[#333] my-4" />
 
@@ -59,7 +59,7 @@ function MainButtons({ handleTabChange }: { handleTabChange: (value: string) => 
       <div className="flex flex-col items-center border border-[#333] w-full justify-center">
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger className="text-mdtext-gray-400 underline cursor-pointer mt-1">{label}</TooltipTrigger>
+            <TooltipTrigger className="text-md text-gray-400 underline cursor-pointer mt-1">{label}</TooltipTrigger>
             <TooltipContent className="opacity-1 bg-[#333] p-2 rounded">
               <p>{tooltip}</p>
             </TooltipContent>

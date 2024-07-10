@@ -7,13 +7,10 @@ export async function NavBar({ signIn, signOut }: { signIn: () => Promise<never>
   async function isLoggedIn() {
     const supabase = await getSupabase();
     const { data, error } = await supabase.auth.getUser();
-    if (error || !data?.user) {
-      return false;
-    }
-    return true;
+    return !error && !!data?.user;
   }
 
-  const userLoggedIn = await isLoggedIn();
+  const isUserLoggedIn = await isLoggedIn();
 
   return (
     <header className="fixed top-0 z-40 w-full mt-4">
@@ -36,7 +33,7 @@ export async function NavBar({ signIn, signOut }: { signIn: () => Promise<never>
 
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
-            <SideMenu loggedIn={userLoggedIn} signIn={signIn} signOut={signOut} />
+            <SideMenu loggedIn={isUserLoggedIn} signIn={signIn} signOut={signOut} />
           </nav>
         </div>
       </div>

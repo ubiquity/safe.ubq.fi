@@ -1,7 +1,7 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export function DropDownOptions({ options, cat }: { options: string[] | number; cat: string }) {
-  const opts = typeof options === "number" ? Array.from({ length: options }, (_, i) => i + 1) : options;
+  const opts = typeof options === "number" ? Array.from({ length: options }, (u, i) => i + 1) : options;
   return (
     <Select>
       <h3 className="text-lg">{cat}</h3>

@@ -8,15 +8,15 @@ type Props = ComponentProps<"button"> & {
 };
 
 export function SubmitButton({ children, pendingText, ...props }: Props) {
-  const { pending, action } = useFormStatus();
+  const { pending: isPending2, action } = useFormStatus();
 
-  const isPending = pending && action === props.formAction;
+  const isPending = isPending2 && action === props.formAction;
 
   return (
     <button
       type="submit"
       formAction={props.formAction}
-      aria-disabled={pending}
+      aria-disabled={isPending}
       className="w-full align-middle items-center flex gap-1 cursor-pointer hover:bg-[#444]  hover:text-white text-[#999]"
     >
       {isPending ? pendingText : children}

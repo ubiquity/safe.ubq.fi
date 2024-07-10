@@ -1,5 +1,5 @@
+import { Card } from "@/components/card";
 import { PasskeyCreateButton } from "@/components/client/register-button";
-import { Card } from "@/components/ui/card";
 import { UserDevice } from "@keyrxng/webauthn-evm-signer";
 import { User } from "@supabase/supabase-js";
 

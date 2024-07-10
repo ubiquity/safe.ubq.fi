@@ -17,12 +17,13 @@
     "plugin:sonarjs/recommended"
   ],
   "ignorePatterns": [
-    "**/*.js"
+    "**/*.js",
+    "components/ui/*.tsx"
   ],
   "rules": {
     "filename-rules/match": [
       2,
-      "/^(e2e\\.ts$|.*\/e2e\\.ts$|[a-z0-9]+(?:[-._a-z0-9]+)*\\.ts|\\.[a-z0-9]+)$/"
+      "/^(e2e\\.(ts|tsx)$|.*\/e2e\\.(ts|tsx)$|[a-z0-9]+(?:[-._a-z0-9]+)*\\.(ts|tsx)|\\.[a-z0-9]+)$/"
     ],
     "prefer-arrow-callback": [
       "warn",
@@ -152,6 +153,7 @@
       {
         "selector": "variableLike",
         "format": [
+          "StrictPascalCase",
           "strictCamelCase"
         ]
       },
@@ -161,7 +163,9 @@
           "variable"
         ],
         "format": [
-          "strictCamelCase"
+          "StrictPascalCase",
+          "strictCamelCase",
+          "UPPER_CASE"
         ]
       }
     ]

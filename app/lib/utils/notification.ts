@@ -1,9 +1,8 @@
-
 export function toastNotification(message: string, timeout?: number) {
-    const toast = document.createElement("div");
-    toast.textContent = message;
+  const toast = document.createElement("div");
+  toast.textContent = message;
 
-    const style = `
+  const style = `
         position: fixed;
         bottom: 0;
         right: 0;
@@ -13,22 +12,22 @@ export function toastNotification(message: string, timeout?: number) {
         border-radius: 0.5rem;
         margin: 1rem;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        `
-    toast.style.cssText = style;
+        `;
+  toast.style.cssText = style;
 
-    document.body.appendChild(toast);
+  document.body.appendChild(toast);
 
-    function killToast() {
-        document.body.removeChild(toast);
-    }
+  function killToast() {
+    document.body.removeChild(toast);
+  }
 
-    if (!timeout) {
-        return killToast;
-    }
-
-    setTimeout(() => {
-        killToast();
-    }, timeout);
-
+  if (!timeout) {
     return killToast;
+  }
+
+  setTimeout(() => {
+    killToast();
+  }, timeout);
+
+  return killToast;
 }

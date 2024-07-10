@@ -13,7 +13,6 @@ export function PasskeyLogin() {
     const isSupported = await window.PublicKeyCredential.isConditionalMediationAvailable();
     if (!isSupported) {
       toast.error("WebAuthn is not supported in this browser");
-      return;
     } else {
       const user = await getUser();
       if (!user) {
