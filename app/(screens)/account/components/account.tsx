@@ -4,9 +4,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 import { LeftHandProfileBox } from "./profile-box";
 import { User } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
+import { SignerData } from "@/app/lib/eoa/get-signer";
 
-export function Account({ user }: { user: User }) {
+export function Account({ user, signer }: { user: User; signer: SignerData }) {
   const [activeTab, setActiveTab] = useState("accounts");
+  const [signerData, setSignerData] = useState<SignerData | null>(null);
 
   function handleTabChange(value: string) {
     console.log("value", value);
@@ -15,6 +17,7 @@ export function Account({ user }: { user: User }) {
 
   useEffect(() => {
     console.log("activeTab", activeTab);
+    setSignerData(signer);
   }, [activeTab]);
 
   return (

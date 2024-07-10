@@ -117,7 +117,7 @@ function BoxMiddle({ usr }: ProfileBoxParams) {
   const spoofData = {
     earnings: 356.76,
     accounts: 1,
-    devices: 1,
+    devices: usr.user_metadata?.devices?.length || 0,
   };
   return (
     <div className="flex flex-col h-full justify-around items-center bg-[#33] mt-4">

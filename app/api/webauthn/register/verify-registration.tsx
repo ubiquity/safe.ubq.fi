@@ -1,9 +1,12 @@
+import { getDaiBalance, getNativeBalance } from "@/app/lib/eoa/balance";
+import { getAddress } from "@/app/lib/eoa/utils";
 import { getCurrentSession } from "@/app/lib/kv/simple-kv";
 import { getSupabase, getUser } from "@/app/lib/supabase/server-side";
 import { createUser } from "@/app/lib/utils";
 import { UserDevice, verifyRegistration } from "@keyrxng/webauthn-evm-signer";
 import { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
 import { JsonRpcProvider } from "ethers";
+import { redirect } from "next/navigation";
 
 export async function verifyReg(credential: RegistrationResponseJSON, rpId?: string) {
   try {
@@ -38,21 +41,14 @@ export async function verifyReg(credential: RegistrationResponseJSON, rpId?: str
     });
 
     if (!verified) throw new Error("Verification failed");
-    const { signer, device } = verified;
+    const { device } = verified;
     await storeDeviceData(device);
 
-    return true;
+    redirect("/account");
   } catch (e) {
     console.error(e);
     return false;
   }
-  /**
-   * Only plain objects, and a few built-ins, can be passed to Client
-   * Components from Server Components. Classes or null prototypes are not supported
-   *
-   *
-   * return signer;
-   */
 }
 
 /**
@@ -75,7 +71,6 @@ async function storeDeviceData(device: UserDevice) {
   const devices = user.user_metadata?.devices || [];
   devices.push(device);
 
-  console.log(`Storing device data: ${JSON.stringify(devices)}`);
   await supabase.auth.updateUser({
     data: {
       devices: devices,

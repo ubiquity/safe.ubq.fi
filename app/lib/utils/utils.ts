@@ -12,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
  * on another form and wants me to pick an MFA device. 
  */
 
-export function createUser(user?: Partial<OAuthUser["user_metadata"]>, manual?: { displayName: string, name: string, existing: UserDevice[] }): User {
+export function createUser(user?: Partial<OAuthUser["user_metadata"]>, manual?: { displayName: string, name: string, devices: UserDevice[] }): User {
   if (manual) return manual;
   if (user) {
     // Do any of these change if a user updates their profile?

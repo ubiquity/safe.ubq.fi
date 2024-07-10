@@ -25,7 +25,7 @@
     "@simplewebauthn/typescript-types": "^8.3.4",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
-    "@ubiquity-dao/rpc-handler": "latest",
+    "@ubiquity-dao/rpc-handler": "^1.1.0",
     "@vercel/kv": "^2.0.0",
     "autoprefixer": "10.4.17",
     "class-variance-authority": "^0.7.0",
@@ -42,6 +42,7 @@
     "tailwind-merge": "^2.4.0",
     "tailwindcss": "3.4.1",
     "tailwindcss-animate": "^1.0.7",
+    "viem": "^2.17.3",
     "webauthn-p256": "^0.0.2"
   },
   "devDependencies": {

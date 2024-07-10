@@ -5,6 +5,9 @@ import { verifyAuthentication } from '@keyrxng/webauthn-evm-signer'
 import { getUser } from '@/app/lib/supabase/server-side'
 import { createUser } from '@/app/lib/utils'
 import { getCurrentSession, updateCurrentSession } from '@/app/lib/kv/simple-kv'
+import { getAddress } from '@/app/lib/eoa/utils'
+import { getDaiBalance, getNativeBalance, useRpcHandler } from '@/app/lib/eoa/balance'
+import { redirect } from 'next/navigation'
 
 /**
  * Used for creating the options needs to authenticate with WebAuthn.
@@ -45,7 +48,7 @@ export async function POST(request: NextRequest) {
         console.log(`No session found: ${error?.message} ${data.session} ${user}`)
         return NextResponse.error()
     }
-
+    const provider = await useRpcHandler(100)
     const body = await request.json()
     const signer = await verifyAuthentication({
         data: body,
@@ -61,16 +64,16 @@ export async function POST(request: NextRequest) {
             iid: user.identities?.[0].identity_id || "",
         },
 
-        provider: undefined,
+        provider,
         rpId: "localhost",
         type: "signer",
     })
 
     updateCurrentSession({ currentChallenge: undefined })
 
-    const signerMetadata = {
-        ...signer
+    if (!signer) {
+        console.error("No signer found")
+        return NextResponse.error()
     }
-
-    return NextResponse.json(signerMetadata)
+    redirect("/account")
 }

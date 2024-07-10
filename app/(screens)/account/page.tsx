@@ -1,8 +1,7 @@
 import { getUser } from "@/app/lib/supabase/server-side";
 import { redirect } from "next/navigation";
-import { LeftHandProfileBox } from "./components/profile-box";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 import { Account } from "./components/account";
+import { getSigner } from "@/app/lib/eoa/get-signer";
 
 export default async function Page() {
   const user = await getUser();
@@ -10,5 +9,7 @@ export default async function Page() {
     redirect("/");
   }
 
-  return <Account user={user} />;
+  const signer = await getSigner("gnosis");
+
+  return <Account user={user} signer={signer} />;
 }

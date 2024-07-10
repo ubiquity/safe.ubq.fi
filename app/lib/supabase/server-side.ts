@@ -74,11 +74,12 @@ export async function getAuthedUser() {
         if (!user.identities) {
             throw new Error("No identities found for user");
         }
+        // how does one have more than one identity?
         return {
             id: user.id,
             iid: user.identities[0].identity_id || "",
             ca: user.created_at,
-            existing: user.app_metadata?.credentials || [],
+            devices: user.app_metadata?.credentials || [],
         }
     }
 }

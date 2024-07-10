@@ -5,7 +5,6 @@ import { getUser } from "@/app/lib/supabase/client-side";
 import { PublicKeyCredentialRequestOptionsJSON } from "@simplewebauthn/server/script/deps";
 import { startAuthentication } from "@simplewebauthn/browser";
 import { toast } from "sonner";
-import { redirect } from "next/navigation";
 
 export function PasskeyLogin() {
   const [isFetching, setIsFetching] = useState(false);
@@ -41,9 +40,7 @@ export function PasskeyLogin() {
           body: JSON.stringify(authData),
         });
 
-        const result = await verified.json();
-
-        if (result.verified) {
+        if (verified.status === 307 || verified.status === 200) {
           toast.success("Successfully logged in");
           window.location.href = "/account";
         } else {
