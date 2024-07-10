@@ -9,7 +9,17 @@ export default async function Page() {
     redirect("/");
   }
 
-  const signer = await getSigner("gnosis");
-
-  return <Account user={user} signer={signer} />;
+  // const signer = await getSigner("gnosis");
+  return (
+    <Account
+      user={user}
+      signer={{
+        address: "0x1234567890",
+        gnosisNativeBalance: "0.0",
+        ethNativeBalance: "0.0",
+        wxdaiBalance: "0.0",
+        daiBalance: "0.0",
+      }}
+    />
+  );
 }

@@ -76,8 +76,8 @@ function MainButtons({ handleTabChange }: { handleTabChange: (value: string) => 
       Tooltip: "Add, remove, and manage your security keys.",
       tab: "credentials",
       buttons: [
-        { label: "Create Passkey", action: () => handleTabChange("credentials"), tooltip: "Add an additional device to access your account with." },
-        { label: "Manage Passkeys", action: () => handleTabChange("credentials"), tooltip: "Remove and inspect your security keys." },
+        { label: "Create Passkey", action: () => handleTabChange("credentials-create"), tooltip: "Add an additional device to access your account with." },
+        { label: "Manage Passkeys", action: () => handleTabChange("credentials-manage"), tooltip: "Remove and inspect your security keys." },
       ],
     },
     {
@@ -85,8 +85,8 @@ function MainButtons({ handleTabChange }: { handleTabChange: (value: string) => 
       Tooltip: "Create, modify and delete your smart accounts.",
       tab: "accounts",
       buttons: [
-        { label: "Create Account", action: () => handleTabChange("accounts"), tooltip: "Create a new smart account." },
-        { label: "Manage Accounts", action: () => handleTabChange("accounts"), tooltip: "Modify, extend and upgrade your smart account." },
+        { label: "Create Account", action: () => handleTabChange("accounts-create"), tooltip: "Create a new smart account." },
+        { label: "Manage Accounts", action: () => handleTabChange("accounts-manage"), tooltip: "Modify, extend and upgrade your smart account." },
       ],
     },
     {
@@ -94,8 +94,8 @@ function MainButtons({ handleTabChange }: { handleTabChange: (value: string) => 
       Tooltip: "Send, receive and withdraw your earnings.",
       tab: "earnings",
       buttons: [
-        { label: "Transfer Funds", action: () => handleTabChange("earnings"), tooltip: "Create a new earnings account." },
-        { label: "Withdraw Funds", action: () => handleTabChange("earnings"), tooltip: "Modify, extend and upgrade your earnings account." },
+        { label: "Transfer Funds", action: () => handleTabChange("earnings-transfer"), tooltip: "Create a new earnings account." },
+        { label: "Withdraw Funds", action: () => handleTabChange("earnings-withdraw"), tooltip: "Modify, extend and upgrade your earnings account." },
       ],
     },
   ];
