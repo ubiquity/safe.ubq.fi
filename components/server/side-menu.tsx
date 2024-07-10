@@ -11,15 +11,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { SubmitButton } from "../client/submit-button";
 
-export default function SideMenu({
-  loggedIn,
-  signIn,
-  signOut,
-}: {
-  loggedIn: boolean;
-  signIn: () => Promise<never>;
-  signOut: () => Promise<never>;
-}) {
+export default function SideMenu({ loggedIn, signIn, signOut }: { loggedIn: boolean; signIn: () => Promise<never>; signOut: () => Promise<never> }) {
   const menuItems = [
     {
       label: "Account",
@@ -57,20 +49,16 @@ export default function SideMenu({
             {item.children.map((child) => (
               <>
                 {child.action ? (
-                  <form key={child.label}>
+                  <form key={child.label} className="ml-2">
                     {loggedIn ? (
-                      <SubmitButton formAction={signOut}>
+                      <SubmitButton pendingText="Signing Out..." formAction={signOut}>
                         <ChevronRight className="w-6 h-6 " />
-                        <DropdownMenuItem className="flex items-center gap-2">
-                          Sign Out
-                        </DropdownMenuItem>
+                        <DropdownMenuItem className="flex items-center gap-2">Sign Out</DropdownMenuItem>
                       </SubmitButton>
                     ) : (
-                      <SubmitButton formAction={signIn}>
+                      <SubmitButton pendingText="Signing In..." formAction={signIn}>
                         <ChevronRight className="w-6 h-6 " />
-                        <DropdownMenuItem className="flex items-center gap-2">
-                          Sign In
-                        </DropdownMenuItem>
+                        <DropdownMenuItem className="flex items-center gap-2">Sign In</DropdownMenuItem>
                       </SubmitButton>
                     )}
                   </form>
@@ -81,9 +69,7 @@ export default function SideMenu({
                     className="w-full align-middle items-center flex gap-1 cursor-pointer hover:bg-[#444]  hover:text-white text-[#999]"
                   >
                     <ChevronRight className="w-6 h-6 " />
-                    <DropdownMenuItem className="flex items-center gap-2">
-                      {child.label}
-                    </DropdownMenuItem>
+                    <DropdownMenuItem className="flex items-center gap-2">{child.label}</DropdownMenuItem>
                   </Link>
                 )}
               </>

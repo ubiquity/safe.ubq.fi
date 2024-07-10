@@ -1,4 +1,4 @@
-import { createClient } from "@/app/lib/supabase/server-side";
+import { getSupabase } from "@/app/lib/supabase/server-side";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -7,7 +7,7 @@ export async function signIn() {
 
   const origin = headers().get("origin");
 
-  const supabase = createClient();
+  const supabase = await getSupabase();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",

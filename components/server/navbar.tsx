@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { Icon } from "../icons";
 import SideMenu from "./side-menu";
-import { createClient } from "@/app/lib/supabase/server-side";
+import { getSupabase } from "@/app/lib/supabase/server-side";
 
 export async function NavBar({ signIn, signOut }: { signIn: () => Promise<never>; signOut: () => Promise<never> }) {
   async function isLoggedIn() {
-    const supabase = createClient();
+    const supabase = await getSupabase();
     const { data, error } = await supabase.auth.getUser();
     if (error || !data?.user) {
       return false;

@@ -1,14 +1,12 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function updateSession(request: NextRequest) {
+export async function updateSupabaseSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   })
   const supabase = createServerClient(
-    // @ts-expect-error - process,env is provided by Next.js
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    // @ts-expect-error - process,env is provided by Next.js
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {

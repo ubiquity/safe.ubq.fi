@@ -1,14 +1,13 @@
 import { Octokit } from "@octokit/rest";
 import { createServerClient } from "@supabase/ssr";
+import { SupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
-export const createClient = () => {
+const createClient = () => {
     const cookieStore = cookies();
 
     return createServerClient(
-        // @ts-expect-error - process,env is provided by Next.js
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        // @ts-expect-error - process,env is provided by Next.js
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
         {
             cookies: {
@@ -45,8 +44,8 @@ export async function getOctokit() {
 /**
  * Server-side only
  */
-export async function getUser() {
-    const supabase = createClient();
+export async function getUser(sb?: SupabaseClient) {
+    const supabase = sb ?? createClient();
     const { data: { user } } = await supabase.auth.getUser()
     return user;
 }

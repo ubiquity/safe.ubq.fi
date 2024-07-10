@@ -1,3 +1,5 @@
+export type OAuthUser = OAuthToken["user"]
+
 export interface OAuthToken {
     provider_token: string;
     access_token: string;
@@ -27,6 +29,7 @@ export interface OAuthToken {
             provider_id: string;
             sub: string;
             user_name: string;
+            [key: string]: any;
         };
         identities: [
             {
@@ -54,27 +57,4 @@ export interface OAuthToken {
         created_at: string;
         updated_at: string;
     };
-}
-
-export type ExistingCredentials = {
-    [publicKey: `0x${string}`]: {
-        id: string;
-        type: PublicKeyCredentialType;
-        transports: AuthenticatorTransport[];
-        algorithm: COSEAlgorithmIdentifier
-    };
-}
-
-export type UserAuth = {
-    id: string;
-    iid: string;
-    ca: string;
-    existing: ExistingCredentials;
-}
-
-
-export type User = {
-    id: string;
-    displayName: string;
-    name: string;
 }
