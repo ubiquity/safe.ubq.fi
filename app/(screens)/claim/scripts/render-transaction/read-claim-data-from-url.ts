@@ -13,9 +13,7 @@ import { setClaimMessage } from "./set-claim-message";
 import { useRpcHandler } from "../web3/use-rpc-handler";
 import { toaster } from "../../components/toaster";
 
-// @ts-expect-error - no types
 const key = process.env.SUPABASE_ANON_KEY;
-// @ts-expect-error - no types
 const url = process.env.SUPABASE_URL;
 
 export async function getSupabase() {
