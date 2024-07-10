@@ -1895,6 +1895,17 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@keyrxng/webauthn-evm-signer@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@keyrxng/webauthn-evm-signer/-/webauthn-evm-signer-1.1.0.tgz#4b2202546db8ef1a2e451c9f0f4e84957b1d699f"
+  integrity sha512-dhaJfOjFk3+G0k8NuYi7KUSmfD5tW5+dPXQxc0Igzah41Axpy1jR2Dq10QCMIy86tf/+GI3ydWYsr0kSahVajg==
+  dependencies:
+    "@simplewebauthn/browser" "^10.0.0"
+    "@simplewebauthn/server" "^10.0.0"
+    "@simplewebauthn/typescript-types" "^8.3.4"
+    ethers "^6.13.1"
+    webauthn-p256 "^0.0.2"
+
 "@levischuck/tiny-cbor@^0.2.2":
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@levischuck/tiny-cbor/-/tiny-cbor-0.2.2.tgz#84239ce80e1107b810f1fe9f66546d4f79f31aea"
