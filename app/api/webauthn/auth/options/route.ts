@@ -8,7 +8,7 @@ import { updateCurrentSession } from "@/app/lib/kv/simple-kv";
  * Used for creating the options needs to authenticate with WebAuthn.
  */
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url);
+  const { origin } = new URL(request.url);
   const cookieStore = cookies();
   try {
     const opts = await createLoginOpts(origin.replace("http://", "").replace("https://", ""));
