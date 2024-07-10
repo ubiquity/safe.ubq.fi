@@ -1,12 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import "./globals.css";
-import { signIn } from "./api/auth/sign-in";
-import { signOut } from "./api/auth/sign-out";
-import { GridBackground } from "@/components/grid";
-import { NavBar } from "@/components/server/navbar";
-import { Toaster } from "@/components/ui/sonner";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-
 const UBIQUITY_REWARDS = "Ubiquity Rewards";
 
 export const metadata: Metadata = {
@@ -34,22 +26,14 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-export default function RootLayout({
+export default function AccountLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <ThemeProvider attribute="class" defaultTheme="dark">
-        <body>
-          <NavBar signIn={signIn} signOut={signOut} />
-          <GridBackground>
-            <div className="fixed w-full">{children}</div>
-          </GridBackground>
-          <Toaster />
-        </body>
-      </ThemeProvider>
-    </html>
+    <div className="container h-screen py-28">
+      <div className="w-full h-full grid grid-cols-12">{children}</div>
+    </div>
   );
 }

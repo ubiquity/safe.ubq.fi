@@ -45,5 +45,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const verified = await verifyAuthentication(body, { user: createUser(user.user_metadata), challenge: challenge! }, "localhost")
 
+    updateCurrentSession({ currentChallenge: undefined })
+
     return NextResponse.json({ verified })
 }

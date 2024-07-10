@@ -2,6 +2,7 @@
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { startRegistration } from "@simplewebauthn/browser";
+import { redirect } from "next/navigation";
 
 export function PasskeyCreateButton() {
   async function handleRegister() {
@@ -36,13 +37,14 @@ export function PasskeyCreateButton() {
 
     if (result.verified) {
       toast.success("Successfully registered");
+      redirect("/account");
     } else {
       toast.error("Failed to register");
     }
   }
 
   return (
-    <Button onClick={() => handleRegister()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded left-0">
+    <Button onClick={() => handleRegister()} className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">
       Create
     </Button>
   );

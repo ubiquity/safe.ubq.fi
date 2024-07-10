@@ -5,9 +5,11 @@ import { getUser } from "@/app/lib/supabase/client-side";
 import { PublicKeyCredentialRequestOptionsJSON } from "@simplewebauthn/server/script/deps";
 import { startAuthentication } from "@simplewebauthn/browser";
 import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
 export function PasskeyLogin() {
   const [isFetching, setIsFetching] = useState(false);
+
   async function handleLogin() {
     const isSupported = await window.PublicKeyCredential.isConditionalMediationAvailable();
     if (!isSupported) {
@@ -43,6 +45,7 @@ export function PasskeyLogin() {
 
         if (result.verified) {
           toast.success("Successfully logged in");
+          window.location.href = "/account";
         } else {
           toast.error("Failed to login");
         }
@@ -53,7 +56,7 @@ export function PasskeyLogin() {
   }
 
   return (
-    <Button onClick={() => handleLogin()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded left-0">
+    <Button onClick={() => handleLogin()} className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">
       Login
     </Button>
   );

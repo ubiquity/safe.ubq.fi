@@ -8,6 +8,14 @@ const nextConfig = {
     SALT: process.env.SALT,
     commitHash: execSync(`git rev-parse --short HEAD`).toString().trim(),
   },
+  images: {
+    remotePatterns: [
+      {
+        hostname: "avatars.githubusercontent.com",
+        protocol: "https",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;
