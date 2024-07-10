@@ -35,6 +35,10 @@ export async function POST(request: NextRequest) {
     }
 
     const challenge = session.currentChallenge
+    if (!challenge) {
+        console.error("No challenge found")
+        return NextResponse.error()
+    }
     const user = await getUser(supabase)
     const { data, error } = await supabase.auth.getSession()
     if (!data.session || !user || error) {
@@ -43,9 +47,30 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const verified = await verifyAuthentication(body, { user: createUser(user.user_metadata), challenge: challenge! }, "localhost")
+    const signer = await verifyAuthentication({
+        data: body,
+        orgSalts: process.env.SALT!,
+        session: {
+            challenge: challenge,
+            user: createUser(data.session.user.user_metadata),
+        },
+        userAuth: {
+            ca: user.created_at,
+            devices: user.app_metadata?.devices || [],
+            id: user.id,
+            iid: user.identities?.[0].identity_id || "",
+        },
+
+        provider: undefined,
+        rpId: "localhost",
+        type: "signer",
+    })
 
     updateCurrentSession({ currentChallenge: undefined })
 
-    return NextResponse.json({ verified })
+    const signerMetadata = {
+        ...signer
+    }
+
+    return NextResponse.json(signerMetadata)
 }

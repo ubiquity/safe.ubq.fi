@@ -10,7 +10,7 @@ type ProfileBoxParams = {
   usr: User;
 };
 
-function UpperBox({ usr }: ProfileBoxParams) {
+function UpperBox({ usr, handleTabChange }: ProfileBoxParams & { handleTabChange: (value: string) => void }) {
   const buttons = [
     { label: "Settings", action: () => {} },
     { label: "Logout", action: () => {} },
@@ -31,12 +31,12 @@ function UpperBox({ usr }: ProfileBoxParams) {
       </div>
 
       <Separator className="border-t w-full border-[#333] my-4" />
-      <MainButtons usr={usr} />
+      <MainButtons handleTabChange={handleTabChange} />
     </div>
   );
 }
 
-function MainButtons({ usr }: ProfileBoxParams) {
+function MainButtons({ handleTabChange }: { handleTabChange: (value: string) => void }) {
   function Buttons({ label, action, tooltip }: { label: string; action: () => void; tooltip?: string }) {
     return (
       <TooltipProvider>
@@ -70,22 +70,45 @@ function MainButtons({ usr }: ProfileBoxParams) {
     );
   }
 
+  const buttons = [
+    {
+      set: "Credential Management",
+      Tooltip: "Add, remove, and manage your security keys.",
+      tab: "credentials",
+      buttons: [
+        { label: "Create Passkey", action: () => handleTabChange("credentials"), tooltip: "Add an additional device to access your account with." },
+        { label: "Manage Passkeys", action: () => handleTabChange("credentials"), tooltip: "Remove and inspect your security keys." },
+      ],
+    },
+    {
+      set: "Account Management",
+      Tooltip: "Create, modify and delete your smart accounts.",
+      tab: "accounts",
+      buttons: [
+        { label: "Create Account", action: () => handleTabChange("accounts"), tooltip: "Create a new smart account." },
+        { label: "Manage Accounts", action: () => handleTabChange("accounts"), tooltip: "Modify, extend and upgrade your smart account." },
+      ],
+    },
+    {
+      set: "Earnings Management",
+      Tooltip: "Send, receive and withdraw your earnings.",
+      tab: "earnings",
+      buttons: [
+        { label: "Transfer Funds", action: () => handleTabChange("earnings"), tooltip: "Create a new earnings account." },
+        { label: "Withdraw Funds", action: () => handleTabChange("earnings"), tooltip: "Modify, extend and upgrade your earnings account." },
+      ],
+    },
+  ];
+
   return (
     <div className="flex flex-col items-center w-full justify-center mt-4 gap-4">
-      <ButtonSet label="Credential Management" tooltip="Add, remove, and manage your security keys.">
-        <Buttons label="Create Passkey" action={() => {}} tooltip="Add an additional device to access your account with." />
-        <Buttons label="Manage Passkeys" action={() => {}} tooltip="Remove and inspect your security keys." />
-      </ButtonSet>
-
-      <ButtonSet label="Account Management" tooltip="Create, modify and delete your smart accounts.">
-        <Buttons label="Create Account" action={() => {}} tooltip="Create a new smart account." />
-        <Buttons label="Manage Accounts" action={() => {}} tooltip="Modify, extend and upgrade your smart account." />
-      </ButtonSet>
-
-      <ButtonSet label="Earnings Management" tooltip="Send, receive and withdraw your earnings.">
-        <Buttons label="Transfer Funds" action={() => {}} tooltip="Create a new earnings account." />
-        <Buttons label="Withdraw Funds" action={() => {}} tooltip="Modify, extend and upgrade your earnings account." />
-      </ButtonSet>
+      {buttons.map((buttonSet) => (
+        <ButtonSet key={buttonSet.set} label={buttonSet.set} tooltip={buttonSet.Tooltip}>
+          {buttonSet.buttons.map((button) => (
+            <Buttons key={button.label} label={button.label} action={button.action} tooltip={button.tooltip} />
+          ))}
+        </ButtonSet>
+      ))}
     </div>
   );
 }
@@ -125,16 +148,12 @@ function BoxFooter({ usr }: ProfileBoxParams) {
   );
 }
 
-export function LeftHandProfileBox({ usr }: ProfileBoxParams) {
+export function LeftHandProfileBox({ usr, handleTabChange }: ProfileBoxParams & { handleTabChange: (value: string) => void }) {
   return (
     <div className="flex flex-col bg-[#3333] p-4 rounded-3xl h-full justify-between">
-      <UpperBox usr={usr} />
+      <UpperBox usr={usr} handleTabChange={handleTabChange} />
       <BoxMiddle usr={usr} />
       <BoxFooter usr={usr} />
     </div>
   );
-}
-
-function BoxContents({ children }: { children: React.ReactNode }) {
-  return <div className="flex flex-col items-center justify-center">{children}</div>;
 }
