@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { createLoginOpts } from "../../create-opts";
 import { updateCurrentSession } from "@/app/lib/kv/simple-kv";
@@ -7,10 +7,11 @@ import { updateCurrentSession } from "@/app/lib/kv/simple-kv";
 /**
  * Used for creating the options needs to authenticate with WebAuthn.
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const { searchParams, origin } = new URL(request.url);
   const cookieStore = cookies();
   try {
-    const opts = await createLoginOpts();
+    const opts = await createLoginOpts(origin.replace("http://", "").replace("https://", ""));
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
