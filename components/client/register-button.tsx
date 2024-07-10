@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { startRegistration } from "@simplewebauthn/browser";
 import { redirect } from "next/navigation";
 
-export function PasskeyCreateButton() {
+export function PasskeyCreateButton({ text }: { text: string }) {
   async function handleRegister() {
     const opts = await fetch("/api/webauthn/register/options", {
       method: "GET",
@@ -45,7 +45,7 @@ export function PasskeyCreateButton() {
 
   return (
     <Button onClick={() => handleRegister()} className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">
-      Create
+      {text}
     </Button>
   );
 }

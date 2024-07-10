@@ -6,7 +6,7 @@ export default async function Home() {
     <div className="grid grid-cols-2 items-center justify-center h-screen text-white">
       <div className="container mx-auto flex flex-col items-center justify-center">
         <h1 className="text-4xl font-bold">Create a Passkey</h1>
-        <PasskeyCreateButton />
+        <PasskeyCreateButton text="Create" />
       </div>
 
       <div className="absolute top-60 left-0 w-full h-16 flex items-center justify-center">
