@@ -10,19 +10,21 @@ import { Credentials } from "./credentials";
 import { MoveFunds } from "./move-funds";
 import { BreadCrumbs } from "@/components/breadcrumbs";
 
-export function Account({ user, signer }: { user: User; signer: SignerData }) {
+export function Account({ user, signer }: { user: User; signer: Promise<SignerData> }) {
   const [activeTab, setActiveTab] = useState("accounts");
   const [activeStep, setActiveStep] = useState<"create" | "manage">("create");
   const [signerData, setSignerData] = useState<SignerData | null>(null);
 
   useEffect(() => {
-    setSignerData(signer);
+    async function load() {
+      setSignerData(await signer);
+    }
+    load();
   }, [signer]);
 
   function handleTabChange(value: string) {
     const tab = value.split("-")[0];
     const step = value.split("-")[1] as "create" | "manage";
-    console.log("tab", tab, "step", step);
     setActiveTab(tab);
     setActiveStep(step);
   }

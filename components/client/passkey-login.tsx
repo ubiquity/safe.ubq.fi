@@ -10,44 +10,45 @@ export function PasskeyLogin() {
   const [isFetching, setIsFetching] = useState(false);
 
   async function handleLogin() {
-    const isSupported = await window.PublicKeyCredential.isConditionalMediationAvailable();
-    if (!isSupported) {
-      toast.error("WebAuthn is not supported in this browser");
-    } else {
-      const user = await getUser();
-      if (!user) {
-        toast.error("You must be logged in to use this feature");
-        return;
-      }
+    const user = await getUser();
+    if (!user) {
+      // maybe handle auth flow differently later
+      toast.error("Authenticate via the top right menu first.");
+      return;
+    }
 
-      if (!isFetching) {
-        setIsFetching(true);
-        const opts = await fetch("/api/webauthn/auth/options", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+    if (!isFetching) {
+      setIsFetching(true);
+      const opts = await fetch("/api/webauthn/auth/options", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        const data: PublicKeyCredentialRequestOptionsJSON = await opts.json();
-        const authData = await startAuthentication(data);
-        const verified = await fetch("/api/webauthn/auth", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(authData),
-        });
+      const data: PublicKeyCredentialRequestOptionsJSON = await opts.json();
+      const authData = await startAuthentication(data);
+      const verified = await fetch("/api/webauthn/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(authData),
+      });
 
-        if (verified.status === 307 || verified.status === 200) {
-          toast.success("Successfully logged in");
-          window.location.href = "/account";
+      if (verified.status === 307 || verified.status === 200) {
+        toast.success("Successfully logged in, redirecting...");
+        window.location.href = "/account";
+      } else {
+        const body = await verified.json();
+        if ("error" in body) {
+          toast.error(body.error);
         } else {
           toast.error("Failed to login");
         }
-      } else {
-        console.error("Already fetching");
       }
+    } else {
+      console.error("Already fetching");
     }
   }
 

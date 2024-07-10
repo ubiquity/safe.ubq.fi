@@ -13,72 +13,69 @@ import { useRpcHandler } from "@/app/lib/eoa/balance";
  */
 export async function POST(request: NextRequest) {
   const cookieStore = cookies();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!key || !url) {
-    throw new Error("Missing Supabase credentials");
-  }
+  try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!key || !url) {
+      throw new Error("Missing Supabase credentials");
+    }
 
-  const supabase = createServerClient(url, key, {
-    cookies: {
-      getAll() {
-        return cookieStore.getAll();
+    const supabase = createServerClient(url, key, {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
+        },
       },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
+    });
+
+    // this should have been store when we created the options
+    const { data: session } = await getCurrentSession();
+    if (!session) throw new Error("No session found");
+
+    const challenge = session.currentChallenge;
+    if (!challenge) throw new Error("No challenge found for the current session.")
+
+    const user = await getUser(supabase);
+    const { data, error } = await supabase.auth.getSession();
+    if (!data.session || !user || error) throw new Error("No user found");
+
+    const provider = await useRpcHandler(100);
+    const body = await request.json();
+    const orgSalt = process.env.SALT;
+    if (!orgSalt) throw new Error("No salts found");
+
+    const signer = await verifyAuthentication({
+      data: body,
+      orgSalts: orgSalt,
+      session: {
+        challenge: challenge,
+        user: createUser(data.session.user.user_metadata),
       },
-    },
-  });
+      userAuth: {
+        ca: user.created_at,
+        devices: user.app_metadata?.devices || [],
+        id: user.id,
+        iid: user.identities?.[0].identity_id || "",
+      },
 
-  // this should have been store when we created the options
-  const { data: session } = await getCurrentSession();
-  if (!session) {
-    console.error("No session found");
-    return NextResponse.error();
-  }
+      provider,
+      rpId: "localhost",
+      type: "signer",
+    });
 
-  const challenge = session.currentChallenge;
-  if (!challenge) {
-    console.error("No challenge found");
-    return NextResponse.error();
-  }
-  const user = await getUser(supabase);
-  const { data, error } = await supabase.auth.getSession();
-  if (!data.session || !user || error) {
-    console.log(`No session found: ${error?.message} ${data.session} ${user}`);
-    return NextResponse.error();
-  }
-  const provider = await useRpcHandler(100);
-  const body = await request.json();
-  const orgSalt = process.env.SALT;
-  if (!orgSalt) {
-    console.error("No salt found");
-    return NextResponse.error();
-  }
-  const signer = await verifyAuthentication({
-    data: body,
-    orgSalts: orgSalt,
-    session: {
-      challenge: challenge,
-      user: createUser(data.session.user.user_metadata),
-    },
-    userAuth: {
-      ca: user.created_at,
-      devices: user.app_metadata?.devices || [],
-      id: user.id,
-      iid: user.identities?.[0].identity_id || "",
-    },
+    await updateCurrentSession({ currentChallenge: undefined });
 
-    provider,
-    rpId: "localhost",
-    type: "signer",
-  });
+    if (!signer) throw new Error("Verification failed");
 
-  await updateCurrentSession({ currentChallenge: undefined });
-
-  if (!signer) {
-    console.error("No signer found");
-    return NextResponse.error();
+    redirect("/account");
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message });
+    } else {
+      return NextResponse.error();
+    }
   }
-  redirect("/account");
 }

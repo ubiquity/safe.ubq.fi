@@ -2,7 +2,6 @@
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { startRegistration } from "@simplewebauthn/browser";
-import { redirect } from "next/navigation";
 
 export function PasskeyCreateButton({ text }: { text: string }) {
   async function handleRegister() {
@@ -13,15 +12,17 @@ export function PasskeyCreateButton({ text }: { text: string }) {
       },
     });
 
-    if (!opts.ok) {
-      toast.error("Failed to fetch registration options");
+    const body = await opts.json();
+
+    if ("error" in body) {
+      toast.error(body.error);
       return;
     }
 
-    const regData = await startRegistration(await opts.json());
+    const regData = await startRegistration(body);
 
     if (!regData) {
-      toast.error("Failed to register");
+      toast.error("Failed to start registration");
       return;
     }
 
@@ -33,13 +34,16 @@ export function PasskeyCreateButton({ text }: { text: string }) {
       body: JSON.stringify(regData),
     });
 
-    const result = await verifyReg.json();
-
-    if (result.verified) {
-      toast.success("Successfully registered");
-      redirect("/account");
+    if (verifyReg.status === 307 || verifyReg.status === 200) {
+      toast.success("Successfully logged in, redirecting...");
+      window.location.href = "/account";
     } else {
-      toast.error("Failed to register");
+      const body = await verifyReg.json();
+      if ("error" in body) {
+        toast.error(body.error);
+      } else {
+        toast.error("Failed to login");
+      }
     }
   }
 

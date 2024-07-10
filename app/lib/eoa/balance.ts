@@ -2,6 +2,7 @@ import { Contract, ethers } from "ethers";
 import { formatEther, formatUnits } from "viem";
 // @ts-expect-error - no types
 import { RPCHandler } from "@ubiquity-dao/rpc-handler";
+import { provider } from "../funding/balance-check";
 
 export const TOKENS = {
   gnosis: {
@@ -33,21 +34,9 @@ export async function getProvider(network: keyof typeof TOKENS) {
 }
 
 export async function getNativeBalance(network: keyof typeof TOKENS, address: `0x${string}`) {
-  let provider;
-
-  if (network === "ethereum") {
-    provider = await getProvider("ethereum");
-  }
-
-  if (network === "gnosis") {
-    provider = await getProvider("gnosis");
-  }
-
   const balance = await provider?.getBalance(address);
 
   if (!balance) {
-    console.log("No balance found");
-    console.log("Provider: ", provider);
     return "0.00";
   }
 
@@ -76,6 +65,8 @@ export async function getTokenBalance(token: `0x${string}`, address: `0x${string
 
   const balance = await contract.balanceOf(address);
   const decimals = await contract.decimals();
+
+  console.log("Balance: ", balance);
   return formatUnits(balance, Number(decimals));
 }
 

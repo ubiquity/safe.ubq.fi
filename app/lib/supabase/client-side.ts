@@ -16,9 +16,6 @@ export async function getOctokit(sb?: SupabaseClient) {
   return new Octokit({ auth: providerToken });
 }
 
-/**
- * Server-side only
- */
 export async function getUser(sb?: SupabaseClient) {
   const supabase = sb ?? (await getSupabase());
   const {

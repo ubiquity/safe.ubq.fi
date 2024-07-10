@@ -5,8 +5,8 @@ import { createUser } from "@/app/lib/utils";
 import { createAuthenticateOptions, createRegisterOptions, User } from "@keyrxng/webauthn-evm-signer";
 import { AuthenticatorTransportFuture } from "@simplewebauthn/typescript-types";
 
-export async function createRegOpts(manualUser?: User, rpId?: string) {
-  const user = manualUser || createUser((await getUser())?.user_metadata);
+export async function createRegOpts(rpId?: string) {
+  const user = createUser((await getUser())?.user_metadata);
   const opts = await createRegisterOptions({
     user: {
       displayName: user.displayName,
@@ -28,8 +28,8 @@ export async function createRegOpts(manualUser?: User, rpId?: string) {
   return opts;
 }
 
-export async function createLoginOpts(manualUser?: User, rpId?: string) {
-  const user = manualUser || createUser((await getUser())?.user_metadata);
+export async function createLoginOpts(rpId?: string) {
+  const user = createUser((await getUser())?.user_metadata);
   const opts = await createAuthenticateOptions({
     allowCredentials:
       user.devices?.map((device) => {

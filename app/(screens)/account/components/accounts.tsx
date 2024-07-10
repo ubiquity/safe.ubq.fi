@@ -3,6 +3,8 @@ import { GroupOptionsSelect } from "./group-options-select";
 import { Button } from "@/components/ui/button";
 import { SignerData } from "@/app/lib/eoa/get-signer";
 import { Card } from "@/components/card";
+import { fundWalletFromFaucet } from "@/app/lib/funding/balance-check";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function Accounts({ signer, action }: { signer: SignerData | null; action: "create" | "manage" }) {
   if (!signer) {
@@ -88,7 +90,21 @@ function WalletDisplay({ signer }: { signer: SignerData }) {
           <p className="text-lg">Gnosis Balance: {gnosisNativeBalance}</p>
           <p className="text-lg">WXdai Balance: {wxdaiBalance}</p>
           <Button className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">Deploy Safe</Button>
-          <Button className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">Claim Gas Gift</Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  onClick={() => fundWalletFromFaucet(signer.address)}
+                  className="bg-[#3333] w-full hover:bg-[#000] text-white font-bold px-4 rounded left-0"
+                >
+                  Claim Gas Gift
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="opacity-1 bg-[#333] p-2 rounded">
+                <p>The faucet seems to hit CPU limits after one request and will sleep for 1-2 mins.</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
     </Card>
