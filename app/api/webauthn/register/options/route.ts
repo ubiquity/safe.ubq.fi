@@ -30,7 +30,7 @@ export async function GET() {
     return NextResponse.json(opts);
   } catch (error) {
     if (error instanceof Error) {
-      return NextResponse.json({ error: error.message })
+      return NextResponse.json({ error: error.message });
     } else {
       return NextResponse.error();
     }

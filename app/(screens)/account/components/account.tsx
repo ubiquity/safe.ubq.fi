@@ -19,7 +19,7 @@ export function Account({ user, signer }: { user: User; signer: Promise<SignerDa
     async function load() {
       setSignerData(await signer);
     }
-    load();
+    load().catch(console.error);
   }, [signer]);
 
   function handleTabChange(value: string) {

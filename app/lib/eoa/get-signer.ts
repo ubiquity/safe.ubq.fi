@@ -7,7 +7,7 @@ import { getDaiBalance, getNativeBalance, getProvider, TOKENS } from "./balance"
 import { getAddress } from "./utils";
 
 export type SignerData = {
-  address: `0x${string}`
+  address: `0x${string}`;
   gnosisNativeBalance: string;
   ethNativeBalance: string;
   wxdaiBalance: string;
@@ -51,7 +51,7 @@ export async function getSigner(network: keyof typeof TOKENS) {
 
   return {
     address,
-    ...await balancePromise,
+    ...(await balancePromise),
   };
 }
 
@@ -68,4 +68,3 @@ async function getBalances(address: `0x${string}`) {
     daiBalance,
   }));
 }
-

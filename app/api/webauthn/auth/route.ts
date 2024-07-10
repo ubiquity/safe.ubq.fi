@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
     if (!session) throw new Error("No session found");
 
     const challenge = session.currentChallenge;
-    if (!challenge) throw new Error("No challenge found for the current session.")
+    if (!challenge) throw new Error("No challenge found for the current session.");
 
     const user = await getUser(supabase);
     const { data, error } = await supabase.auth.getSession();

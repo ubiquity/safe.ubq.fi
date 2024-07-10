@@ -2,7 +2,7 @@
 import { updateCurrentSession } from "@/app/lib/kv/simple-kv";
 import { getUser } from "@/app/lib/supabase/server-side";
 import { createUser } from "@/app/lib/utils";
-import { createAuthenticateOptions, createRegisterOptions, User } from "@keyrxng/webauthn-evm-signer";
+import { createAuthenticateOptions, createRegisterOptions } from "@keyrxng/webauthn-evm-signer";
 import { AuthenticatorTransportFuture } from "@simplewebauthn/typescript-types";
 
 export async function createRegOpts(rpId?: string) {

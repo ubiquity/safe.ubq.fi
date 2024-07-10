@@ -1,5 +1,6 @@
 import { ethers, JsonRpcProvider, Wallet } from "ethers";
 import { toast } from "sonner";
+import { FAILED_TO_FUND } from "../utils";
 
 export const provider = new JsonRpcProvider("https://rpc-amoy.polygon.technology");
 
@@ -27,14 +28,14 @@ export async function fundWalletFromFaucet(signer: Wallet | `0x${string}`) {
     }
 
     if (!res || !res.ok) {
-      toast.error("Failed to fund wallet from faucet");
+      toast.error(FAILED_TO_FUND);
       return null;
     }
 
     const response = await res.json();
 
     if (response.txHash) {
-      console.log(response.txHash)
+      console.log(response.txHash);
       const tx = await provider.getTransaction(response.txHash);
       if (tx) {
         await tx.wait();
@@ -42,16 +43,15 @@ export async function fundWalletFromFaucet(signer: Wallet | `0x${string}`) {
       toast.success("Wallet funded from faucet");
       return response.txHash;
     } else {
-      console.log(response)
-      toast.error("Failed to fund wallet from faucet");
+      console.log(response);
+      toast.error(FAILED_TO_FUND);
       return response;
     }
   } catch (e) {
     console.error(e);
-    toast.error("Failed to fund wallet from faucet");
+    toast.error(FAILED_TO_FUND);
     return null;
   }
-
 }
 
 async function retryWrapper(fn: () => Promise<Response>, retries = 3): Promise<Response | null> {
