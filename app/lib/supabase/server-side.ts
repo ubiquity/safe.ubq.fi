@@ -78,7 +78,7 @@ export async function getAuthedUser() {
       id: user.id,
       iid: user.identities[0].identity_id || "",
       ca: user.created_at,
-      devices: user.app_metadata?.credentials || [],
+      devices: user.user_metadata?.devices || [],
     };
   }
 }

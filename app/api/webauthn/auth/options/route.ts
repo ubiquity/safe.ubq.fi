@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const { origin } = new URL(request.url);
   const cookieStore = cookies();
   try {
-    const opts = await createLoginOpts(origin.replace("http://", "").replace("https://", ""));
+    const opts = await createLoginOpts(origin.replace("http://", "").replace("https://", "").replace(":3000", ""));
 
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;

@@ -43,12 +43,14 @@ export async function getSigner(network: keyof typeof TOKENS) {
   const orgSalts = process.env.SALT;
   if (!orgSalts) throw new Error("No salts found");
 
-  const signer = await createAndUseSigner("signer", fullUser, device as UserDevice, orgSalts, provider);
+  const signer = await createAndUseSigner("signer", fullUser, orgSalts, provider);
+  return signer;
+}
 
+export async function getSignerData(network: keyof typeof TOKENS) {
+  const signer = await getSigner(network);
   const address = await getAddress(signer);
-
   const balancePromise = getBalances(address);
-
   return {
     address,
     ...(await balancePromise),
@@ -66,5 +68,10 @@ async function getBalances(address: `0x${string}`) {
     ethNativeBalance,
     wxdaiBalance,
     daiBalance,
+  })).catch(() => ({
+    gnosisNativeBalance: "0.0",
+    ethNativeBalance: "0.0",
+    wxdaiBalance: "0.0",
+    daiBalance: "0.0",
   }));
 }

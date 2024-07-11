@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       },
       userAuth: {
         ca: user.created_at,
-        devices: user.app_metadata?.devices || [],
+        devices: user.user_metadata?.devices || [],
         id: user.id,
         iid: user.identities?.[0].identity_id || "",
       },

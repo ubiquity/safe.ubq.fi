@@ -66,7 +66,6 @@ export async function getTokenBalance(token: `0x${string}`, address: `0x${string
   const balance = await contract.balanceOf(address);
   const decimals = await contract.decimals();
 
-  console.log("Balance: ", balance);
   return formatUnits(balance, Number(decimals));
 }
 
