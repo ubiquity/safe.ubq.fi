@@ -3,8 +3,9 @@ import { getAuthedUser, getSupabase, getUser } from "../supabase/server-side";
 import { getCurrentSession } from "../kv/simple-kv";
 import { createUser } from "../utils";
 import { redirect } from "next/navigation";
-import { getDaiBalance, getNativeBalance, getProvider, TOKENS } from "./balance";
+import { getDaiBalance, getNativeBalance, getProvider } from "./balance";
 import { getAddress } from "./utils";
+import { TOKENS } from "@/app/types/blockchain";
 
 export type SignerData = {
   address: `0x${string}`;
@@ -42,36 +43,26 @@ export async function getSigner(network: keyof typeof TOKENS) {
   const provider = await getProvider(network);
   const orgSalts = process.env.SALT;
   if (!orgSalts) throw new Error("No salts found");
+  if (!provider) throw new Error("No provider found");
 
-  const signer = await createAndUseSigner("signer", fullUser, orgSalts, provider);
-  return signer;
+  return await createAndUseSigner("wallet", fullUser, orgSalts, provider);
 }
 
 export async function getSignerData(network: keyof typeof TOKENS) {
   const signer = await getSigner(network);
   const address = await getAddress(signer);
-  const balancePromise = getBalances(address);
+  const balancePromise = await getBalances(address);
   return {
     address,
-    ...(await balancePromise),
+    ...balancePromise,
   };
 }
 
 async function getBalances(address: `0x${string}`) {
-  return Promise.all([
-    getNativeBalance("gnosis", address),
-    getNativeBalance("ethereum", address),
-    getDaiBalance("gnosis", address),
-    getDaiBalance("ethereum", address),
-  ]).then(([gnosisNativeBalance, ethNativeBalance, wxdaiBalance, daiBalance]) => ({
-    gnosisNativeBalance,
-    ethNativeBalance,
-    wxdaiBalance,
-    daiBalance,
-  })).catch(() => ({
-    gnosisNativeBalance: "0.0",
-    ethNativeBalance: "0.0",
-    wxdaiBalance: "0.0",
-    daiBalance: "0.0",
-  }));
+  return {
+    gnosisNativeBalance: await getNativeBalance("amoy", address),
+    ethNativeBalance: await getNativeBalance("amoy", address),
+    wxdaiBalance: await getDaiBalance("amoy", address),
+    daiBalance: await getDaiBalance("amoy", address),
+  };
 }

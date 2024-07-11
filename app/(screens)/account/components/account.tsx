@@ -1,5 +1,4 @@
 "use client";
-
 import { Tabs, TabsContent } from "@radix-ui/react-tabs";
 import { LeftHandProfileBox } from "./profile-box";
 import { User } from "@supabase/supabase-js";

@@ -23,9 +23,7 @@ export async function fundWalletFromFaucet(signer: Wallet | `0x${string}`) {
     };
     try {
       res = await fetch(workerUrl, options);
-    } catch (e) {
-      res = await retryWrapper(() => fetch(workerUrl, options));
-    }
+    } catch { }
 
     if (!res || !res.ok) {
       toast.error(FAILED_TO_FUND);
@@ -35,7 +33,6 @@ export async function fundWalletFromFaucet(signer: Wallet | `0x${string}`) {
     const response = await res.json();
 
     if (response.txHash) {
-      console.log(response.txHash);
       const tx = await provider.getTransaction(response.txHash);
       if (tx) {
         await tx.wait();
@@ -43,7 +40,6 @@ export async function fundWalletFromFaucet(signer: Wallet | `0x${string}`) {
       toast.success("Wallet funded from faucet");
       return response.txHash;
     } else {
-      console.log(response);
       toast.error(FAILED_TO_FUND);
       return response;
     }
@@ -52,19 +48,4 @@ export async function fundWalletFromFaucet(signer: Wallet | `0x${string}`) {
     toast.error(FAILED_TO_FUND);
     return null;
   }
-}
-
-async function retryWrapper(fn: () => Promise<Response>, retries = 3): Promise<Response | null> {
-  let res: Response | null = null;
-  const backoff = 7500;
-  for (let i = 0; i < retries; i++) {
-    try {
-      res = await fn();
-      break;
-    } catch (e) {
-      console.error(e);
-    }
-    await new Promise((resolve) => setTimeout(resolve, backoff * (i + 1)));
-  }
-  return res;
 }

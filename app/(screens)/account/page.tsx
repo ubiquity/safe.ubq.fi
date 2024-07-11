@@ -9,7 +9,7 @@ export default async function Page() {
     redirect("/");
   }
 
-  const signer = getSignerData("gnosis");
+  const signer = getSignerData("amoy");
   return (
     <Account
       user={user}

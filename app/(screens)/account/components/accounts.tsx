@@ -89,7 +89,9 @@ function WalletDisplay({ signer }: { signer: SignerData }) {
           <p className="text-lg">ETH Balance: {ethNativeBalance}</p>
           <p className="text-lg">Gnosis Balance: {gnosisNativeBalance}</p>
           <p className="text-lg">WXdai Balance: {wxdaiBalance}</p>
-          <Button className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">Deploy Safe</Button>
+          <Button disabled className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">
+            Deploy Safe
+          </Button>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -152,9 +154,15 @@ function SafeDisplay() {
               <li key={idx}>{key}</li>
             ))}
           </ul>
-          <Button className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">Add Owner</Button>
-          <Button className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">Add Extension</Button>
-          <Button className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">Add Delegate Key</Button>
+          <Button disabled className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">
+            Add Owner
+          </Button>
+          <Button disabled className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">
+            Add Extension
+          </Button>
+          <Button disabled className="bg-[#3333] hover:bg-[#000] text-white font-bold px-4 rounded left-0">
+            Add Delegate Key
+          </Button>
         </div>
       </div>
     </Card>

@@ -1,19 +1,11 @@
-import { Contract, ethers } from "ethers";
-import { formatEther, formatUnits } from "viem";
+import { Contract, ethers, JsonRpcProvider } from "ethers";
+import { Address, formatEther, formatUnits } from "viem";
 // @ts-expect-error - no types
 import { RPCHandler } from "@ubiquity-dao/rpc-handler";
 import { provider } from "../funding/balance-check";
+import { Networks, TOKENS } from "@/app/types/blockchain";
 
-export const TOKENS = {
-  gnosis: {
-    dai: "0xe91d153e0b41518a2ce8dd3d7944fa863463a97d",
-    weth: "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
-  },
-  ethereum: {
-    weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    dai: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-  },
-} as const;
+
 
 /**
  * Tokens will not be hardcoded in production but instead we will be able to load
@@ -29,44 +21,62 @@ export const TOKENS = {
  * These are just helper function for now to beef up the demo.
  */
 
-export async function getProvider(network: keyof typeof TOKENS) {
-  return await useRpcHandler(network === "gnosis" ? 100 : 1);
+type CaptializeFirstLetter<T> = T extends string ? `${Uppercase<T[0]>}${T extends `${infer _}${infer Rest}` ? Rest : ""}` : T;
+
+export async function getProvider(network: Networks | CaptializeFirstLetter<Networks>) {
+  return new JsonRpcProvider("https://rpc-amoy.polygon.technology");
+
+  if ("gnosis" || "Gnosis") {
+    return await useRpcHandler(100);
+  }
+  if ("ethereum" || "Ethereum") {
+    return await useRpcHandler(1);
+  }
+  if ("amoy" || "Amoy") {
+    return new JsonRpcProvider("https://rpc-amoy.polygon.technology");
+  }
 }
 
-export async function getNativeBalance(network: keyof typeof TOKENS, address: `0x${string}`) {
+export async function getNativeBalance(network: Networks, address: Address) {
   const balance = await provider?.getBalance(address);
 
   if (!balance) {
     return "0.00";
   }
 
-  return formatEther(balance);
+  return formatEther(balance, "wei");
 }
 
-export async function getDaiBalance(network: keyof typeof TOKENS, address: `0x${string}`) {
+export async function getDaiBalance(network: Networks, address: Address) {
   return getTokenBalance(TOKENS[network].dai, address, network);
 }
 
-export async function getWethBalance(network: keyof typeof TOKENS, address: `0x${string}`) {
+export async function getWethBalance(network: Networks, address: Address) {
   return getTokenBalance(TOKENS[network].weth, address, network);
 }
 
-export async function getTokenFromGeckoTerminal(network: keyof typeof TOKENS, token: keyof (typeof TOKENS)[keyof typeof TOKENS]) {
+export async function getTokenFromGeckoTerminal(network: Networks, token: Address) {
   return fetchGecko("token", { network, token });
 }
 
-export async function getTokenPoolFromGeckoTerminal(network: keyof typeof TOKENS, pool: keyof (typeof TOKENS)[keyof typeof TOKENS]) {
+export async function getTokenPoolFromGeckoTerminal(network: Networks, pool: Address) {
   return fetchGecko("pool", { network, pool });
 }
 
-export async function getTokenBalance(token: `0x${string}`, address: `0x${string}`, network: keyof typeof TOKENS) {
-  const provider = await getProvider(network);
-  const contract = new Contract(token, ["function balanceOf(address) view returns (uint256)", "function decimals() view returns (uint8)"], provider);
+export async function getTokenBalance(token: Address, address: Address, network: Networks) {
+  try {
+    const provider = await getProvider(network);
+    const contract = new Contract(token, ["function balanceOf(address) view returns (uint256)", "function decimals() view returns (uint8)"], provider);
 
-  const balance = await contract.balanceOf(address);
-  const decimals = await contract.decimals();
+    const balance = await contract.balanceOf(address);
+    const decimals = await contract.decimals();
 
-  return formatUnits(balance, Number(decimals));
+    return formatUnits(balance, Number(decimals));
+  } catch (e) {
+    console.log(e)
+  }
+
+  return "0.00";
 }
 
 const geckoMethods = {
