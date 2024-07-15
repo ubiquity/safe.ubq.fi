@@ -7,6 +7,7 @@ const nextConfig = {
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.SUPABASE_KEY,
     SALT: process.env.SALT,
     commitHash: execSync(`git rev-parse --short HEAD`).toString().trim(),
+    VANITY_ETH_PRIVATE_KEY: process.env.VANITY_ETH_PRIVATE_KEY,
   },
   images: {
     remotePatterns: [
