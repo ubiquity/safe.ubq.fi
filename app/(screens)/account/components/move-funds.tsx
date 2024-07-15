@@ -5,6 +5,10 @@ import { GroupOptionsSelect } from "./group-options-select";
 import { Networks, TOKENS } from "@/app/types/blockchain";
 import { useState } from "react";
 import { toast } from "sonner";
+import { SignerData } from "@/app/lib/eoa/get-signer";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { HelpCircle } from "lucide-react";
+import { DropdownSearch } from "@/components/client/dropdown-search";
 
 /**
  * Used for the management of a user's earnings.
@@ -12,17 +16,17 @@ import { toast } from "sonner";
  * This could be used for sending, receiving and withdrawing funds.
  * As well as stats on earnings, etc.
  */
-export function MoveFunds() {
-  const [network, setNetwork] = useState<Networks>("gnosis");
+export function MoveFunds({ signer }: { signer: SignerData | null }) {
+  const [network, setNetwork] = useState<Networks>("amoy");
+  const [token, setToken] = useState<string>("");
 
-  async function handleTransfer(amount: number, to: string, token: keyof (typeof TOKENS)[Networks], network: Networks) {
+  async function handleTransfer(amount: number, to: string, network: Networks) {
     const endpoint = "account/api/transfer";
-    const tokenAddress = TOKENS[network][token];
 
     const body = {
       amount,
       to,
-      tokenAddress,
+      token,
       network,
     };
 
@@ -73,23 +77,72 @@ export function MoveFunds() {
     return data.txHash;
   }
 
+  async function handleMintWxdai(network: Networks) {
+    const endpoint = "account/api/mint-wxdai";
+
+    const body = {
+      network,
+    };
+
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await response.json();
+
+    if ("error" in data) {
+      throw new Error(data.error);
+    }
+
+    console.log("Transaction hash: ", data.txHash);
+
+    return data.txHash;
+  }
+
   async function handleNetworkSelect(network: Networks) {
     setNetwork(network);
   }
 
+  const tokenOptions = Array.from(
+    Object.values(TOKENS.amoy).map((token, i) => {
+      switch (token) {
+        case TOKENS.amoy.dai:
+          return { label: "xdai", value: token };
+        case TOKENS.amoy.eth:
+          return { label: "native", value: token };
+        case TOKENS.amoy.weth:
+          return { label: "weth", value: token };
+        default:
+          return { label: "unknown", value: token };
+      }
+    })
+  );
+
   return (
-    <div className="flex flex-row gap-4 mt-2 h-full">
+    <div className="grid grid-cols-2 gap-4 mt-2 h-full">
       <Card className="bg-[#3333] border-[#333] text-white">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger className="w-full flex justify-end items-center">
+              <HelpCircle className="w-6 h-6" />
+            </TooltipTrigger>
+            <TooltipContent className="opacity-1 bg-[#333] p-2 rounded">
+              <p>Select Amoy for the demo. </p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <div className="flex flex-col gap-4">
           <p className="text-lg font-semibold self-center">Transfer</p>
-
           <form
             onSubmit={async (e) => {
               e.preventDefault();
-              const { amount, address, token } = e.target as HTMLFormElement;
-              const selectedToken = token.value;
-              const hash = await handleTransfer(amount.value, address.value, selectedToken, network);
-              console.log("completed form submission", hash);
+              const { amount, address } = e.target as HTMLFormElement;
+              const hash = await handleTransfer(amount.value, address.value, network);
+              console.log("txhash", hash);
             }}
           >
             <div className="grid grid-cols-2 gap-4">
@@ -100,19 +153,14 @@ export function MoveFunds() {
                   options={["Gnosis", "Amoy"] as unknown as Networks[]}
                   cat=""
                 />
+                <p className="text-lg self-center">Balance: {signer?.wxdaiBalance ?? "0.00"}</p>
               </div>
-              <Select name="token">
-                <SelectTrigger className="w-[180px] data-[state=open]:bg-[#000] bg-[#333] hover:bg-[#000] text-white font-bold px-4 rounded left-0 data-[state=closed]:bg-[#333] data-[state=open]:text-white data-[state=open]:font-bold data-[state=open]:px-4 data-[state=open]:rounded">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="opacity-100 bg-gray-500">
-                  <SelectItem value="DAI">DAI</SelectItem>
-                  <SelectItem value="ETH">ETH</SelectItem>
-                  <SelectItem value="WETH">WETH</SelectItem>
-                </SelectContent>
-              </Select>
-              <input type="text" name="amount" placeholder="Amount" className="p-2 rounded-md bg-[#000]" />
-              <input type="text" name="address" placeholder="Address" className="p-2 rounded-md bg-[#000]" />
+
+              <div className="flex flex-col gap-2">
+                <DropdownSearch options={tokenOptions} setToken={setToken} />
+                <input type="text" name="amount" placeholder="Amount" className="p-2 rounded-md bg-[#000]" />
+              </div>
+              <input type="text" name="address" placeholder="address" className="p-2 rounded-md bg-[#000] col-span-2" />
               <Button type="submit" className="bg-[#3333] hover:bg-[#000] text-white col-span-2 font-bold px-4 rounded left-0">
                 Send
               </Button>
@@ -120,15 +168,48 @@ export function MoveFunds() {
           </form>
         </div>
       </Card>
+
       <Card className="bg-[#3333] border-[#333] text-white">
-        <div className="flex flex-col gap-4">
-          <p className="text-lg font-semibold">Withdraw</p>
-          <div className="grid grid-cols-2 gap-4">
-            {/* USD Balance */}
-            <p className="text-lg">Balance: $356.76</p>
-            <input type="text" placeholder="Amount" className="p-2 rounded-md bg-[#000]" />
-            <Button className="bg-[#3333] hover:bg-[#000] col-span-2 text-white font-bold px-4 rounded left-0">Withdraw</Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger className="w-full flex justify-end items-center">
+              <HelpCircle className="w-6 h-6" />
+            </TooltipTrigger>
+            <TooltipContent className="opacity-1 bg-[#333] p-2 rounded">
+              <p>Select Amoy for the demo. </p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <div className="flex flex-col gap-4 h-full w-full justify-between">
+          <p className="text-lg font-semibold self-center">Withdraw</p>
+          <div className="flex flex-row gap-4 h-full w-full justify-center items-center">
+            <div className="flex justify-evenly gap-4 w-full items-center">
+              <p className="text-lg self-center">Balance: {signer?.wxdaiBalance ?? "0.00"}</p>
+              <input type="text" placeholder="Amount" className="p-2 rounded-md bg-[#000] h-min" />
+            </div>
           </div>
+          <Button type="submit" className="bg-[#3333] hover:bg-[#000] text-white col-span-2 font-bold mb-6 rounded border py-4">
+            Withdraw
+          </Button>
+        </div>
+      </Card>
+
+      <Card className="bg-[#3333] border-[#333] text-white col-span-2">
+        <div className="flex flex-col gap-4">
+          <p className="text-lg font-semibold">Mint Free Tokens</p>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const hash = await handleMintWxdai(network);
+              console.log("completed form submission", hash);
+            }}
+          >
+            <div className="grid grid-cols-2 gap-4">
+              <p className="text-lg">WXDAI Balance: {signer?.wxdaiBalance ?? "0.00"}</p>
+              <p className="text-lg text-gray-500">Only for the demo.</p>
+              <Button className="bg-[#3333] hover:bg-[#000] col-span-2 text-white font-bold px-4 rounded left-0">Mint</Button>
+            </div>
+          </form>
         </div>
       </Card>
     </div>
