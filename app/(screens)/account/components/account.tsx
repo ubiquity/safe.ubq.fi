@@ -9,7 +9,7 @@ import { Credentials } from "./credentials";
 import { MoveFunds } from "./move-funds";
 import { BreadCrumbs } from "@/components/breadcrumbs";
 
-export function Account({ user, signer }: { user: User; signer: Promise<SignerData> }) {
+export function Account({ user, signer }: { user: User; signer: SignerData }) {
   const [activeTab, setActiveTab] = useState("accounts");
   const [activeStep, setActiveStep] = useState<"create" | "manage">("create");
   const [signerData, setSignerData] = useState<SignerData | null>(null);
@@ -43,7 +43,7 @@ export function Account({ user, signer }: { user: User; signer: Promise<SignerDa
             <Credentials user={user} action={activeStep} />
           </TabsContent>
           <TabsContent value="earnings">
-            <MoveFunds />
+            <MoveFunds signer={signerData} />
           </TabsContent>
         </Tabs>
       </div>

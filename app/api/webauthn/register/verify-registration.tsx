@@ -3,7 +3,7 @@ import { getSupabase, getUser } from "@/app/lib/supabase/server-side";
 import { createUser, NO_USER_FOUND } from "@/app/lib/utils";
 import { UserDevice, verifyRegistration } from "@keyrxng/webauthn-evm-signer";
 import { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
-import { JsonRpcProvider } from "ethers";
+import { ethers, JsonRpcProvider } from "ethers";
 import { redirect } from "next/navigation";
 
 export async function verifyReg(credential: RegistrationResponseJSON, rpId?: string) {
@@ -24,7 +24,7 @@ export async function verifyReg(credential: RegistrationResponseJSON, rpId?: str
     const verified = await verifyRegistration({
       data: credential,
       orgSalts: salts,
-      provider: new JsonRpcProvider("http://localhost:8545"),
+      provider: new ethers.JsonRpcProvider("http://localhost:8545"),
       rpId: rpId || "localhost",
       userAuth: {
         ca: user.created_at,

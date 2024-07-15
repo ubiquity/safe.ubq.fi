@@ -9,12 +9,11 @@ export default async function Page() {
     redirect("/");
   }
 
-  const signer = getSignerData("amoy");
   return (
     <Account
       user={user}
       signer={
-        signer
+        await getSignerData("amoy")
         //   {
         //   address: "0x1234567890",
         //   gnosisNativeBalance: "0.0",

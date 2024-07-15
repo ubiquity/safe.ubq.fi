@@ -1,9 +1,9 @@
-import { Contract, ethers, JsonRpcProvider } from "ethers";
-import { Address, formatEther, formatUnits } from "viem";
+import { Contract, ethers } from "ethers";
 // @ts-expect-error - no types
 import { RPCHandler } from "@ubiquity-dao/rpc-handler";
 import { provider } from "../funding/balance-check";
 import { Networks, TOKENS } from "@/app/types/blockchain";
+import { Address } from "viem";
 
 
 
@@ -24,7 +24,7 @@ import { Networks, TOKENS } from "@/app/types/blockchain";
 type CaptializeFirstLetter<T> = T extends string ? `${Uppercase<T[0]>}${T extends `${infer _}${infer Rest}` ? Rest : ""}` : T;
 
 export async function getProvider(network: Networks | CaptializeFirstLetter<Networks>) {
-  return new JsonRpcProvider("https://rpc-amoy.polygon.technology");
+  return new ethers.JsonRpcProvider("https://rpc-amoy.polygon.technology");
 
   if ("gnosis" || "Gnosis") {
     return await useRpcHandler(100);
@@ -33,7 +33,7 @@ export async function getProvider(network: Networks | CaptializeFirstLetter<Netw
     return await useRpcHandler(1);
   }
   if ("amoy" || "Amoy") {
-    return new JsonRpcProvider("https://rpc-amoy.polygon.technology");
+    return new ethers.JsonRpcProvider("https://rpc-amoy.polygon.technology");
   }
 }
 
@@ -44,7 +44,7 @@ export async function getNativeBalance(network: Networks, address: Address) {
     return "0.00";
   }
 
-  return formatEther(balance, "wei");
+  return ethers.formatEther(balance);
 }
 
 export async function getDaiBalance(network: Networks, address: Address) {
@@ -71,7 +71,7 @@ export async function getTokenBalance(token: Address, address: Address, network:
     const balance = await contract.balanceOf(address);
     const decimals = await contract.decimals();
 
-    return formatUnits(balance, Number(decimals));
+    return ethers.formatUnits(balance, Number(decimals));
   } catch (e) {
     console.log(e)
   }

@@ -3,9 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { transferErc20, transferNative } from "./transfer-funds";
 
-/**
- * Used for creating the options needs to authenticate with WebAuthn.
- */
 export async function POST(request: NextRequest) {
   const cookieStore = cookies();
 
@@ -34,16 +31,20 @@ export async function POST(request: NextRequest) {
 
     let txHash;
 
-    console.log("Transfer request", body)
-    const { amount, to, tokenAddress, network } = body;
+    const { amount, to, token, network } = body;
 
-    if (tokenAddress === "native") {
+    if (token === "native") {
       let response = await transferNative(amount, to, network)
-      console.log("Native response", response)
-
+      if (response instanceof Error) {
+        throw response
+      }
+      txHash = response
     } else {
-      let response = await transferErc20(amount, to, tokenAddress, network)
-
+      let response = await transferErc20(amount, to, token, network)
+      if (response instanceof Error) {
+        throw response
+      }
+      txHash = response
     }
 
     if (!txHash) {
