@@ -1,10 +1,13 @@
-export async function mainModule() {
-  console.log(`Hello from mainModule`);
-}
+import { authentication } from "./src/auth/authentication";
+import { renderSafeUI } from "./src/webauthn/rendering";
+import { webAuthn } from "./src/webauthn/webauthn";
 
-mainModule()
-  .then(() => {
-    console.log("mainModule loaded");
+authentication()
+  .then((ghUser) => {
+    if (!ghUser) return;
+    webAuthn(ghUser).then((result) => {
+      renderSafeUI(result)
+    });
   })
   .catch((error) => {
     console.error(error);
