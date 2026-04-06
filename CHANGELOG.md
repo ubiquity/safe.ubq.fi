@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.0.0 (2026-04-06)
+
+
+### Features
+
+* update deploy workflow to use dynamic debug paths ([1a6f0f5](https://github.com/ubiquity/safe.ubq.fi/commit/1a6f0f5c4da467d46b932958ce0ffa2adac5a80d))
+* used ubiquity's knip-reporter ([70848c1](https://github.com/ubiquity/safe.ubq.fi/commit/70848c17da5c0846729e81a94c6595e09a050b2f))
+
+
+### Bug Fixes
+
+* **ci:** keep static/dist in deploy ([eb21dd4](https://github.com/ubiquity/safe.ubq.fi/commit/eb21dd474b503553c526f7dc6f026c8c4a94b1df))
+* harden deploy install ([a3d342a](https://github.com/ubiquity/safe.ubq.fi/commit/a3d342a20b7e3c0a7512956c7d91ef98fa9c890f))
+* standardize deno deploy workflow and serve.ts ([1017431](https://github.com/ubiquity/safe.ubq.fi/commit/10174316bf2bc4b0625b19f4054ecd3128167950))
+* update favicon assets for higher fidelity ([e72c9ea](https://github.com/ubiquity/safe.ubq.fi/commit/e72c9eab002227d4fe042cb86f5887b2fb2d5841))
+
+
+### Reverts
+
+* remove sync-template https://github.com/ubiquity/ts-template/issues/54#issuecomment-2428842723 ([220ffe7](https://github.com/ubiquity/safe.ubq.fi/commit/220ffe706429744f93484835b79e4ee49db67022))
+
 ## 1.0.0 (2024-06-05)
 
 
