@@ -81,13 +81,18 @@ jobs:
             printf '%s' "$value"
           }
 
+          hash_slug() {
+            printf '%s' "$1" | sha256sum | cut -c1-6
+          }
+
           app_slug="$BASE_APP"
           if [ "$REF_NAME" != "$DEFAULT_BRANCH" ]; then
             suffix="$(slugify "$REF_NAME")"
             if [ -z "$suffix" ]; then
               suffix="branch"
             fi
-            suffix_budget=$((32 - ${#BASE_APP} - 1))
+            suffix_hash="$(hash_slug "$REF_NAME")"
+            suffix_budget=$((32 - ${#BASE_APP} - 1 - 1 - ${#suffix_hash}))
             if [ "$suffix_budget" -gt 25 ]; then
               suffix_budget=25
             fi
@@ -98,7 +103,7 @@ jobs:
             if [ -z "$suffix" ]; then
               suffix="b"
             fi
-            app_slug="${BASE_APP}-${suffix}"
+            app_slug="${BASE_APP}-${suffix}-${suffix_hash}"
           fi
 
           echo "app_slug=$app_slug" >> "$GITHUB_OUTPUT"
@@ -136,7 +141,7 @@ jobs:
             --build-manifest=false
 
   delete-branch-app:
-    if: github.event_name == 'delete'
+    if: github.event_name == 'delete' && github.event.ref_type == 'branch'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -177,13 +182,18 @@ jobs:
             printf '%s' "$value"
           }
 
+          hash_slug() {
+            printf '%s' "$1" | sha256sum | cut -c1-6
+          }
+
           app_slug="$BASE_APP"
           if [ "$DELETED_REF" != "$DEFAULT_BRANCH" ]; then
             suffix="$(slugify "$DELETED_REF")"
             if [ -z "$suffix" ]; then
               suffix="branch"
             fi
-            suffix_budget=$((32 - ${#BASE_APP} - 1))
+            suffix_hash="$(hash_slug "$DELETED_REF")"
+            suffix_budget=$((32 - ${#BASE_APP} - 1 - 1 - ${#suffix_hash}))
             if [ "$suffix_budget" -gt 25 ]; then
               suffix_budget=25
             fi
@@ -194,7 +204,7 @@ jobs:
             if [ -z "$suffix" ]; then
               suffix="b"
             fi
-            app_slug="${BASE_APP}-${suffix}"
+            app_slug="${BASE_APP}-${suffix}-${suffix_hash}"
           fi
 
           echo "app_slug=$app_slug" >> "$GITHUB_OUTPUT"
