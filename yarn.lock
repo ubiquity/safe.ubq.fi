@@ -6208,11 +6208,6 @@ quick-lru@^4.0.1:
   resolved "https://registry.npmjs.org/quick-lru/-/quick-lru-4.0.1.tgz"
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
 
-ramda@0.29.1:
-  version "0.29.1"
-  resolved "https://registry.npmjs.org/ramda/-/ramda-0.29.1.tgz"
-  integrity sha512-OfxIeWzd4xdUNxlWhgFazxsA/nl3mS4/jGZI5n00uWOoSSFRhC1b6gl6xvmzUamgmqELraWp0J/qqVlXYPDPyA==
-
 "ramda@npm:@pnpm/ramda@0.28.1":
   version "0.28.1"
   resolved "https://registry.npmjs.org/@pnpm/ramda/-/ramda-0.28.1.tgz"
