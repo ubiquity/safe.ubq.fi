@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "tsx build/esbuild-server.ts",
-    "build": "tsx build/esbuild-build.ts",
+    "build": "deno task build",
     "format": "run-s format:lint format:prettier format:cspell",
     "format:lint": "eslint --fix .",
     "format:prettier": "prettier --write .",
